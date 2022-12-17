@@ -27,6 +27,7 @@
       "@Services/*": ["src/services/*"],
       "@Sagas/*": ["src/redux/sagas/*"],
       "@Slices/*": ["src/redux/slices/*"],
+      "@Styles/*": ["src/style/*"],
       "@Utils/*": ["src/utils/*"]
     }
   },

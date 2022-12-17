@@ -28,6 +28,7 @@ module.exports = function override(config, env) {
     '@Services': resolve('src/services'),
     '@Sagas': resolve('src/redux/sagas'),
     '@Slices': resolve('src/redux/slices'),
+    '@Styles': resolve('src/style'),
     '@Utils': resolve('src/utils')
   };
 
