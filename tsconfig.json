@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/Components/*": ["src/components/*"],
+      "@/Hooks/*": ["src/hooks/*"],
+      "@/Interfaces/*": ["src/interfaces/*"],
+      "@/Pages/*": ["src/pages/*"],
+      "@/Redux/*": ["src/redux/*"],
+      "@/Routes/*": ["src/routes/*"],
+      "@/Services/*": ["src/services/*"],
+      "@/Sagas/*": ["src/redux/sagas/*"],
+      "@/Slices/*": ["src/redux/slices/*"],
+      "@/Utils/*": ["src/utils/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}
