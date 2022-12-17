@@ -18,16 +18,17 @@ module.exports = function override(config, env) {
 
   config.resolve.alias = {
     ...config.resolve.alias,
-    '@/Components': resolve('src/components'),
-    '@/Hooks': resolve('src/hooks'),
-    '@/Interfaces': resolve('src/interfaces'),
-    '@/Pages': resolve('src/pages'),
-    '@/Routes': resolve('src/routes'),
-    '@/Redux': resolve('src/redux'),
-    '@/Services': resolve('src/services'),
-    '@/Sagas': resolve('src/redux/sagas'),
-    '@/Slices': resolve('src/redux/slices'),
-    '@/Utils': resolve('src/utils')
+    '@Constants': resolve('src/constants'),
+    '@Components': resolve('src/components'),
+    '@Hooks': resolve('src/hooks'),
+    '@Interfaces': resolve('src/interfaces'),
+    '@Pages': resolve('src/pages'),
+    '@Routes': resolve('src/routes'),
+    '@Redux': resolve('src/redux'),
+    '@Services': resolve('src/services'),
+    '@Sagas': resolve('src/redux/sagas'),
+    '@Slices': resolve('src/redux/slices'),
+    '@Utils': resolve('src/utils')
   };
 
   return config;
