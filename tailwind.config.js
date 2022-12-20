@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          blue: '#0071EB',
+          blue: '#0071EB'
         },
         bg: {
           gray1: '#f5f5f7',
@@ -27,9 +27,15 @@ module.exports = {
           }
         ],
         'title-2': [
+          '2rem',
+          {
+            fontWeight: '700'
+          }
+        ],
+        'title-3': [
           '1.0625rem',
           {
-            lineHeight: '3.5remo',
+            lineHeight: '3.5rem',
             fontWeight: '400'
           }
         ],

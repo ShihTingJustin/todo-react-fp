@@ -13,7 +13,7 @@ const SidebarItem = () => {
           <div className="title-container">
             <div className="title">
               <div className="inline-editable">
-                <div className="inline-editable-label text-title-2" role="textbox">
+                <div className="inline-editable-label text-title-3" role="textbox">
                   Daily 1.01 rule not not-selected
                 </div>
               </div>
