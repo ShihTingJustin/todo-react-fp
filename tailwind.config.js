@@ -6,33 +6,23 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          blue: '#007AFF',
-          red: '#E9683F'
-        },
-        black: {
-          header: '#1D1D1D',
-          body: '#2D3748'
-        },
-        white: {
-          header: '#FFFFFF',
-          bg: '#E5E5E5'
-        },
-        gray: {
-          border: '#E6E6E6'
+          blue: '#0071EB',
         },
         bg: {
           gray1: '#f5f5f7',
           gray2: '#f2f2f7',
           gray3: '#e9e9ea',
           white1: '#fff'
+        },
+        border: {
+          gray1: '#c6c6c8'
         }
       },
       fontSize: {
         'title-1': [
-          '28px',
+          '21px',
           {
-            lineHeight: '150%',
-            letterSpacing: '-0.02em',
+            letterSpacing: '-0.25px',
             fontWeight: '600'
           }
         ],
