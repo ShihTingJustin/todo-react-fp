@@ -17,16 +17,16 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/Components/*": ["src/components/*"],
-      "@/Hooks/*": ["src/hooks/*"],
-      "@/Interfaces/*": ["src/interfaces/*"],
-      "@/Pages/*": ["src/pages/*"],
-      "@/Redux/*": ["src/redux/*"],
-      "@/Routes/*": ["src/routes/*"],
-      "@/Services/*": ["src/services/*"],
-      "@/Sagas/*": ["src/redux/sagas/*"],
-      "@/Slices/*": ["src/redux/slices/*"],
-      "@/Utils/*": ["src/utils/*"]
+      "@Components/*": ["src/components/*"],
+      "@Hooks/*": ["src/hooks/*"],
+      "@Interfaces/*": ["src/interfaces/*"],
+      "@Pages/*": ["src/pages/*"],
+      "@Redux/*": ["src/redux/*"],
+      "@Routes/*": ["src/routes/*"],
+      "@Services/*": ["src/services/*"],
+      "@Sagas/*": ["src/redux/sagas/*"],
+      "@Slices/*": ["src/redux/slices/*"],
+      "@Utils/*": ["src/utils/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"]
