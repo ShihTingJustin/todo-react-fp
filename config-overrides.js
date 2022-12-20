@@ -18,6 +18,7 @@ module.exports = function override(config, env) {
 
   config.resolve.alias = {
     ...config.resolve.alias,
+    '@Assets': resolve('src/assets'),
     '@Components': resolve('src/components'),
     '@Hooks': resolve('src/hooks'),
     '@Interfaces': resolve('src/interfaces'),
