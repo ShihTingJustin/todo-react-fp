@@ -19,6 +19,12 @@ module.exports = {
         },
         gray: {
           border: '#E6E6E6'
+        },
+        bg: {
+          gray1: '#f5f5f7',
+          gray2: '#f2f2f7',
+          gray3: '#e9e9ea',
+          white1: '#fff'
         }
       },
       fontSize: {
@@ -45,7 +51,8 @@ module.exports = {
             letterSpacing: '-0.02em',
             fontWeight: '400'
           }
-        ],'content-2': [
+        ],
+        'content-2': [
           '12px',
           {
             lineHeight: '140%',
