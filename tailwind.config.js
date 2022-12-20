@@ -20,18 +20,17 @@ module.exports = {
       },
       fontSize: {
         'title-1': [
-          '21px',
+          '1.3rem',
           {
             letterSpacing: '-0.25px',
             fontWeight: '600'
           }
         ],
         'title-2': [
-          '18px',
+          '1.0625rem',
           {
-            lineHeight: '120%',
-            letterSpacing: '-0.02em',
-            fontWeight: '600'
+            lineHeight: '3.5remo',
+            fontWeight: '400'
           }
         ],
         'content-1': [

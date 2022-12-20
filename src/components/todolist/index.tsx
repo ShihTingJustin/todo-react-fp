@@ -10,7 +10,7 @@ const TodoItem = () => {
 
 const TodoList = () => {
   return (
-    <div className="todo-list">
+    <div className="todo-list h-screen">
       <TodoListHeader />
       <div>
         {Array.from({ length: 5 }).map((item, index) => (
