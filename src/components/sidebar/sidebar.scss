@@ -1,13 +1,5 @@
-.todo-list-menu-item {
-  &:not(:last-child) {
-    .content-wrap {
-      @apply border-b border-border-gray2;
-    }
-  }
-  
-  &:last-child {
-    .content-wrap {
-      @apply border-none;
-    }
+.todo-list-menu {
+  [data-selected='true'] {
+    @apply bg-bg-blue1 text-white border-none;
   }
 }
