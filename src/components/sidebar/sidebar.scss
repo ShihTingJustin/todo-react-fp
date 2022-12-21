@@ -1,0 +1,13 @@
+.todo-list-menu-item {
+  &:not(:last-child) {
+    .content-wrap {
+      @apply border-b border-border-gray2;
+    }
+  }
+  
+  &:last-child {
+    .content-wrap {
+      @apply border-none;
+    }
+  }
+}
