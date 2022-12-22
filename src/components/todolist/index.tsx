@@ -24,7 +24,7 @@ const TodoList = () => {
   const [todoList, setTodoList] = useState(mock)
   
   return (
-    <div className="todo-list h-screen">
+    <div className="todo-list">
       <TodoListHeader title={'list title'} />
       <div>
         {todoList.map((item, index) => (

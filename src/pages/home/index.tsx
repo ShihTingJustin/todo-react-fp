@@ -26,9 +26,9 @@ const mockSidebarItem = [
 
 function Home() {
   return (
-    <div className="home--root ">
+    <div className="home--root h-screen flex flex-col">
       <Toolbar />
-      <div className="main-view flex">
+      <div className="main-view flex grow">
         <div className="w-[335px] bg-bg-gray2">
           <Sidebar sidebarItem={mockSidebarItem} />
         </div>
