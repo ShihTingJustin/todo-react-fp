@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
+import React, { Ref, useEffect, useState, useRef } from 'react';
 
-import { Input } from 'antd';
+import { Input, InputRef } from 'antd';
 
 import Unfinished from '@Assets/unfinished';
 import Finished from '@Assets/finished';
 
 import { ITodo, TodoStatus } from '@Interfaces/I_todo';
 
-const TodoItem = ({ id, title, status, priority }: ITodo) => {
+const TodoItem = ({
+  todo: { id, title, status, priority },
+  onEdit,
+  onBlur,
+  showNewTodo
+}: {
+  todo: ITodo;
+  onEdit?: (id: ITodo['id']) => void;
+  onBlur?: (inputValue: ITodo['title']) => void;
+  showNewTodo?: boolean;
+}) => {
+  const editField = useRef<InputRef | null>(null);
   const [checked, setChecked] = useState(status === TodoStatus.FINISH);
+
+  useEffect(() => {
+    if (showNewTodo) {
+      const node = editField.current;
+      node?.focus();
+    }
+  }, [showNewTodo]);
 
   const toggle = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -30,9 +48,13 @@ const TodoItem = ({ id, title, status, priority }: ITodo) => {
           <div className="flex items-center w-full border-b border-border-gray2">
             {priority && <div>!</div>}
             <Input
+              ref={editField}
               defaultValue={title}
               className="edit w-full text-content-1"
               bordered={false}
+              onBlur={() => {
+                onBlur?.(editField.current?.input?.value || '');
+              }}
               // onChange={(e) => handleChange(e)}
               // onPressEnter={(e) => {}}
             />
