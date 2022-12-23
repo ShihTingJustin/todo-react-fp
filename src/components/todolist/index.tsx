@@ -33,7 +33,7 @@ const TodoList = () => {
 
   return (
     <div className="todo-list flex flex-col h-full">
-      <TodoListHeader title={'list title'} />
+      <TodoListHeader title={'list title'} plusButtonDisabled={showNewTodo} />
       <div className="flex flex-col grow">
         {todoList.map((todo, index) => (
           <TodoItem

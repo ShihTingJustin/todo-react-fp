@@ -8,6 +8,12 @@ module.exports = {
         primary: {
           blue: '#0071EB'
         },
+        active: {
+          blue1: '#004c9f'
+        },
+        disabled: {
+          gray1: '#c4c4c6'
+        },
         bg: {
           gray1: '#f5f5f7',
           gray2: '#f2f2f7',

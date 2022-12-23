@@ -1,0 +1,14 @@
+.right-wrap {
+  & button {
+    &[data-disabled='true'] {
+      svg {
+        @apply fill-disabled-gray1;
+      }
+    }
+    &[data-disabled='false']:active {
+      svg {
+        @apply fill-active-blue1;
+      }
+    }
+  }
+}
