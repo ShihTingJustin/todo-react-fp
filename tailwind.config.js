@@ -24,6 +24,9 @@ module.exports = {
         border: {
           gray1: '#c6c6c8',
           gray2: '#E9E8EA'
+        },
+        icon: {
+          blue1: '#1badf8'
         }
       },
       fontSize: {
