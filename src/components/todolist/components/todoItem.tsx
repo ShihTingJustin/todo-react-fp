@@ -11,7 +11,7 @@ const TodoItem = ({
   todo: { id, title, status, priority },
   onEdit,
   onBlur,
-  showNewTodo
+  showNewTodo,
 }: {
   todo: ITodo;
   onEdit?: (id: ITodo['id']) => void;

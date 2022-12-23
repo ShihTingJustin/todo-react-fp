@@ -10,14 +10,14 @@ const mock = [
     id: '0',
     title: '000',
     status: TodoStatus.FINISH,
-    priority: TodoPriority.LOW
+    priority: TodoPriority.LOW,
   },
   {
     id: '1',
     title: '111',
-    status: TodoStatus.UNFINISH
+    status: TodoStatus.UNFINISH,
     // priority: TodoPriority.LOW
-  }
+  },
 ];
 
 const TodoList = () => {

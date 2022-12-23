@@ -10,7 +10,7 @@ const SidebarItem = ({ title, icon }: SidebarItemProps) => {
   return (
     <div className={`todo-list-menu-item pl-3 h-[3.5rem] flex items-center`} role="listbox">
       <div className="todo-list-menu-item-content flex items-center w-full">
-        <div className='min-w-[2rem] min-h-[2rem] bg-icon-blue1 rounded-full'>
+        <div className="min-w-[2rem] min-h-[2rem] bg-icon-blue1 rounded-full">
           <ListIcon />
         </div>
         <div className="content-wrap w-full ml-4">

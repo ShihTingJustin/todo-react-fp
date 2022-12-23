@@ -18,7 +18,7 @@ const TodoListHeader = ({
   title = 'list title',
   plusButtonDisabled = false,
   onPlusClick = () => {},
-  onMoreClick = () => {}
+  onMoreClick = () => {},
 }: TodoListHeaderProps) => {
   return (
     <div className="flex justify-between items-center pl-6 pr-5 h-[3.125rem]">

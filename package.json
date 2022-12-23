@@ -17,6 +17,7 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
+    "eslint:fix": "eslint --fix",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {

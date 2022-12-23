@@ -14,6 +14,6 @@ export const common: RouteObject[] = [
         <Home />
       </Suspense>
     ),
-    errorElement: <ErrorBoundary />
-  }
+    errorElement: <ErrorBoundary />,
+  },
 ];

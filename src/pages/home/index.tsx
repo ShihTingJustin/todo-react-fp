@@ -10,18 +10,18 @@ const mockSidebarItem = [
   {
     id: '0',
     title: 'sidebar title 0',
-    icon: '321'
+    icon: '321',
   },
   {
     id: '1',
     title: 'sidebar title 1',
-    icon: '321'
+    icon: '321',
   },
   {
     id: '2',
     title: 'sidebar title 2',
-    icon: '321'
-  }
+    icon: '321',
+  },
 ];
 
 function Home() {

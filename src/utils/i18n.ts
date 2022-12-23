@@ -7,16 +7,16 @@ import zhGeneral from '../locales/zh/general.json';
 
 export enum Language {
   EN = 'en',
-  ZH = 'zh'
+  ZH = 'zh',
 }
 
 const resources = {
   en: {
-    general: enGeneral
+    general: enGeneral,
   },
   zh: {
-    general: zhGeneral
-  }
+    general: zhGeneral,
+  },
 };
 
 i18n
@@ -26,7 +26,7 @@ i18n
     detection: {
       order: ['localStorage', 'navigator'],
       lookupLocalStorage: 'i18nextLng',
-      caches: ['localStorage']
+      caches: ['localStorage'],
     },
     resources,
     fallbackLng: 'en',
@@ -34,8 +34,8 @@ i18n
     defaultNS: 'general',
     debug: false,
     interpolation: {
-      escapeValue: false
-    }
+      escapeValue: false,
+    },
   });
 
 export default i18n;
