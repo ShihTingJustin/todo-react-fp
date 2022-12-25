@@ -54,15 +54,15 @@ const Sidebar = () => {
     <div className="scrollable-area px-3 pt-3">
       <div className="todo-list-menu rounded-[12px] overflow-hidden bg-bg-white1" role="menu">
         {data?.data?.map((item, index) => (
-          <>
+          <div key={item.id}>
             <div
               onClick={() => dispatch(setSelectedListId(item.id))}
               data-selected={selectedListId === item.id}
             >
-              <SidebarItem key={item.id} {...item} />
+              <SidebarItem {...item} />
             </div>
             {data?.data?.length !== index + 1 && <Divider className="m-0 ml-6" />}
-          </>
+          </div>
         ))}
       </div>
     </div>
