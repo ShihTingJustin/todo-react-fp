@@ -1,7 +1,6 @@
 import { useState } from 'react';
-
 import { Divider } from 'antd';
-
+import { listApi } from '@Services/listApi';
 import ListIcon from '@Assets/list';
 
 import './sidebar.scss';
@@ -33,21 +32,22 @@ const SidebarItem = ({ title, icon }: SidebarItemProps) => {
 type SidebarItemProps = {
   id: string;
   title: string;
-  icon: string;
+  icon?: string;
 };
 
-const Sidebar = ({ sidebarItem }: { sidebarItem: Array<SidebarItemProps> }) => {
-  const [selectedId, setSelectedId] = useState(sidebarItem[0].id);
+const Sidebar = () => {
+  const { data } = listApi.useGetAllQuery();
+  const [selectedId, setSelectedId] = useState(data?.data[0].id);
 
   return (
     <div className="scrollable-area px-3 pt-3">
       <div className="todo-list-menu rounded-[12px] overflow-hidden bg-bg-white1" role="menu">
-        {sidebarItem.map((item, index) => (
+        {data?.data?.map((item, index) => (
           <>
             <div onClick={() => setSelectedId(item.id)} data-selected={selectedId === item.id}>
               <SidebarItem key={item.id} {...item} />
             </div>
-            {sidebarItem.length !== index + 1 && <Divider className="m-0 ml-6" />}
+            {data?.data?.length !== index + 1 && <Divider className="m-0 ml-6" />}
           </>
         ))}
       </div>
