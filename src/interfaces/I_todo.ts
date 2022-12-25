@@ -13,6 +13,7 @@ export enum TodoStatus {
 
 export type ITodo = {
   id: string;
+  listId: string;
   title: string;
   status: TodoStatus;
   priority?: TodoPriority;
