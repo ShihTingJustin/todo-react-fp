@@ -1,31 +1,18 @@
 import { useState } from 'react';
-
+import { todoApi } from '@Services/todoApi';
 import TodoListHeader from '@Components/todolist/components/header';
 import TodoItem from '@Components/todolist/components/todoItem';
+import { useAppSelector } from '@Hooks/useAppRedux';
 
-import { TodoStatus, TodoPriority, ITodo } from '@Interfaces/I_todo';
-
-const mock = [
-  {
-    id: '0',
-    title: '000',
-    status: TodoStatus.FINISH,
-    priority: TodoPriority.LOW,
-  },
-  {
-    id: '1',
-    title: '111',
-    status: TodoStatus.UNFINISH,
-    // priority: TodoPriority.LOW
-  },
-];
+import { TodoStatus, ITodo } from '@Interfaces/I_todo';
 
 const TodoList = () => {
-  const [todoList, setTodoList] = useState(mock);
+  const { selectedListId } = useAppSelector((state) => state.list);
+  const { data } = todoApi.useGetAllQuery(selectedListId);
+
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
 
   const [showNewTodo, setShowNewTodo] = useState(false);
-  console.log({ showNewTodo });
 
   const edit = (todoId: ITodo['id'] | null) => {
     setEditingTodoId(todoId);
@@ -35,7 +22,7 @@ const TodoList = () => {
     <div className="todo-list flex flex-col h-full">
       <TodoListHeader title={'list title'} plusButtonDisabled={showNewTodo} />
       <div className="flex flex-col grow">
-        {todoList.map((todo, index) => (
+        {data?.data?.map((todo, index) => (
           <TodoItem
             key={index}
             todo={todo}
@@ -51,7 +38,12 @@ const TodoList = () => {
         ))}
         {showNewTodo ? (
           <TodoItem
-            todo={{ id: '123', title: '', status: TodoStatus.UNFINISH }}
+            todo={{
+              id: '123',
+              title: '',
+              status: TodoStatus.UNFINISH,
+              listId: selectedListId,
+            }}
             showNewTodo={showNewTodo}
             onBlur={(value) => {
               if (value) {

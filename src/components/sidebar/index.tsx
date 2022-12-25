@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
 import { Divider } from 'antd';
 import { listApi } from '@Services/listApi';
+import { setSelectedListId } from '@Slices/listSlice';
 import ListIcon from '@Assets/list';
+import { RootState } from '@Redux/store';
 
 import './sidebar.scss';
 
@@ -36,15 +39,26 @@ type SidebarItemProps = {
 };
 
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
+  const { selectedListId } = useAppSelector((state: RootState) => state.list);
+
   const { data } = listApi.useGetAllQuery();
-  const [selectedId, setSelectedId] = useState(data?.data[0].id);
+
+  useEffect(() => {
+    if (data?.data[0]?.id) {
+      dispatch(setSelectedListId(data?.data[0]?.id));
+    }
+  }, [data]);
 
   return (
     <div className="scrollable-area px-3 pt-3">
       <div className="todo-list-menu rounded-[12px] overflow-hidden bg-bg-white1" role="menu">
         {data?.data?.map((item, index) => (
           <>
-            <div onClick={() => setSelectedId(item.id)} data-selected={selectedId === item.id}>
+            <div
+              onClick={() => dispatch(setSelectedListId(item.id))}
+              data-selected={selectedListId === item.id}
+            >
               <SidebarItem key={item.id} {...item} />
             </div>
             {data?.data?.length !== index + 1 && <Divider className="m-0 ml-6" />}

@@ -1,5 +1,6 @@
 import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
 import { listApi } from '@Services/listApi';
+import { todoApi } from '@Services/todoApi';
 
 import Toolbar from '@Components/toolbar';
 import Sidebar from '@Components/sidebar';
@@ -13,9 +14,7 @@ function Home() {
       <Toolbar />
       <div className="main-view flex grow">
         <div className="w-[335px] bg-bg-gray2">
-          <ApiProvider api={listApi}>
-            <Sidebar />
-          </ApiProvider>
+          <Sidebar />
         </div>
         <div className="grow">
           <TodoList />
