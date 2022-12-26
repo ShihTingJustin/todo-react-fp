@@ -62,11 +62,13 @@ const TodoList = () => {
               todo={todo}
               onEdit={edit}
               onBlur={(todoInfo) => {
+                console.log(todoInfo.title)
                 if (todoInfo.title) {
                   const { id, ...rest } = todoInfo;
                   handleUpdate({ todoId: id, ...rest });
                 } else {
                   handleDelete(todoInfo.id);
+                  setShowNewTodo(false);
                 }
               }}
             />
@@ -87,9 +89,8 @@ const TodoList = () => {
               if (todoInfo.title) {
                 const { id, ...rest } = todoInfo;
                 handleCreate(rest);
-              } else {
-                setShowNewTodo(false);
               }
+              setShowNewTodo(false);
             }}
           />
         ) : (
