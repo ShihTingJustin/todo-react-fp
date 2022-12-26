@@ -8,7 +8,7 @@ import { CreateTodoReqBody, UpdateTodoReqBody, TodoStatus, ITodo } from '@Interf
 
 const TodoList = () => {
   const { selectedListId } = useAppSelector((state) => state.list);
-  const [trigger, result] = todoApi.useLazyGetAllQuery();
+  const [getTodoByListId, todoList] = todoApi.useLazyGetAllQuery();
   const [createTodo, { isLoading, isError }] = todoApi.useCreateTodoMutation();
   const [updateTodo, { isLoading: isUpdateTodoLoading, isError: isUpdateTodoError }] =
     todoApi.useUpdateTodoMutation();
@@ -17,7 +17,7 @@ const TodoList = () => {
 
   useEffect(() => {
     if (selectedListId) {
-      trigger(selectedListId);
+      getTodoByListId(selectedListId);
     }
   }, [selectedListId]);
 
@@ -26,7 +26,7 @@ const TodoList = () => {
   const handleCreate = async (todo: CreateTodoReqBody) => {
     try {
       const res = await createTodo(todo).unwrap();
-      trigger(res?.data.listId);
+      getTodoByListId(res?.data.listId);
     } catch (error) {}
   };
 
@@ -37,7 +37,7 @@ const TodoList = () => {
   const handleDelete = async (todoId: ITodo['id']) => {
     try {
       deleteTodo(todoId);
-      trigger(selectedListId);
+      getTodoByListId(selectedListId);
     } catch (error) {}
   };
 
@@ -49,12 +49,12 @@ const TodoList = () => {
     <div className="todo-list flex flex-col h-full">
       <TodoListHeader title={'list title'} plusButtonDisabled={showNewTodo} />
       <div className="flex flex-col grow">
-        {result?.isError ? (
+        {todoList?.isError ? (
           <>Oh no, there was an error</>
-        ) : result?.isLoading ? (
+        ) : todoList?.isLoading ? (
           <>Loading...</>
-        ) : result?.data ? (
-          result?.data?.data?.map((todo, index) => (
+        ) : todoList?.data ? (
+          todoList?.data?.data?.map((todo, index) => (
             <TodoItem
               key={index}
               todo={todo}
