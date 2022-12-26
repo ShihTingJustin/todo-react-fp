@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { todoApi } from '@Services/todoApi';
 import TodoListHeader from '@Components/todolist/components/header';
@@ -8,7 +9,13 @@ import { TodoStatus, ITodo } from '@Interfaces/I_todo';
 
 const TodoList = () => {
   const { selectedListId } = useAppSelector((state) => state.list);
-  const { data } = todoApi.useGetAllQuery(selectedListId);
+  const [trigger, result] = todoApi.useLazyGetAllQuery();
+
+  useEffect(() => {
+    if (selectedListId) {
+      trigger(selectedListId);
+    }
+  }, [selectedListId]);
 
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
 
@@ -22,20 +29,28 @@ const TodoList = () => {
     <div className="todo-list flex flex-col h-full">
       <TodoListHeader title={'list title'} plusButtonDisabled={showNewTodo} />
       <div className="flex flex-col grow">
-        {data?.data?.map((todo, index) => (
-          <TodoItem
-            key={index}
-            todo={todo}
-            onEdit={edit}
-            onBlur={(value) => {
-              if (value) {
-                // TODO: update todo API
-              } else {
-                // TODO: delete todo API
-              }
-            }}
-          />
-        ))}
+        {result?.isError ? (
+          <>Oh no, there was an error</>
+        ) : result?.isLoading ? (
+          <>Loading...</>
+        ) : result?.data ? (
+          result?.data?.data?.map((todo, index) => (
+            <TodoItem
+              key={index}
+              todo={todo}
+              onEdit={edit}
+              onBlur={(value) => {
+                if (value) {
+                  // TODO: update todo API
+                } else {
+                  // TODO: delete todo API
+                }
+              }}
+            />
+          ))
+        ) : (
+          <></>
+        )}
         {showNewTodo ? (
           <TodoItem
             todo={{
