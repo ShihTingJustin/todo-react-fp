@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ITodo, CreateTodoReqBody } from '@Interfaces/I_todo';
+import { ITodo, CreateTodoReqBody, UpdateTodoReqBody } from '@Interfaces/I_todo';
 
 export interface Response<T = any> {
   data: T;
@@ -32,6 +32,14 @@ export const todoApi = createApi({
       query: (todo) => ({
         url: 'todo',
         method: 'POST',
+        body: todo,
+      }),
+      invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
+    }),
+    updateTodo: builder.mutation<Response<ITodo>, UpdateTodoReqBody>({
+      query: (todo) => ({
+        url: 'todo',
+        method: 'PUT',
         body: todo,
       }),
       invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
