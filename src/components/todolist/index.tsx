@@ -21,8 +21,6 @@ const TodoList = () => {
     }
   }, [selectedListId]);
 
-  const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
-
   const [showNewTodo, setShowNewTodo] = useState(false);
 
   const handleCreate = async (todo: CreateTodoReqBody) => {
@@ -47,10 +45,6 @@ const TodoList = () => {
     updateTodo({ todoId: todoInfo.id, status: todoInfo.status });
   };
 
-  const edit = (todoId: ITodo['id'] | null) => {
-    setEditingTodoId(todoId);
-  };
-
   return (
     <div className="todo-list flex flex-col h-full">
       <TodoListHeader title={'list title'} plusButtonDisabled={showNewTodo} />
@@ -64,7 +58,6 @@ const TodoList = () => {
             <TodoItem
               key={index}
               todo={todo}
-              onEdit={edit}
               onToggle={handleToggle}
               onBlur={(todoInfo) => {
                 console.log(todoInfo.title);

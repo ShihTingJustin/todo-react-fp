@@ -10,13 +10,11 @@ import { ITodo, TodoStatus } from '@Interfaces/I_todo';
 const TodoItem = ({
   todo,
   onToggle,
-  onEdit,
   onBlur,
   showNewTodo,
 }: {
   todo: ITodo;
   onToggle?: (todoInfo: ITodo) => void;
-  onEdit?: (id: ITodo['id']) => void;
   onBlur?: (todoInfo: ITodo) => void;
   showNewTodo?: boolean;
 }) => {
