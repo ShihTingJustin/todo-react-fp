@@ -4,12 +4,12 @@ import { todoApi } from '@Services/todoApi';
 import TodoListHeader from '@Components/todolist/components/header';
 import TodoItem from '@Components/todolist/components/todoItem';
 import { useAppSelector } from '@Hooks/useAppRedux';
-
-import { TodoStatus, ITodo } from '@Interfaces/I_todo';
+import { CreateTodoReqBody, TodoStatus, ITodo } from '@Interfaces/I_todo';
 
 const TodoList = () => {
   const { selectedListId } = useAppSelector((state) => state.list);
   const [trigger, result] = todoApi.useLazyGetAllQuery();
+  const [createTodo, { isLoading, isError }] = todoApi.useCreateTodoMutation();
 
   useEffect(() => {
     if (selectedListId) {
@@ -20,6 +20,13 @@ const TodoList = () => {
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
 
   const [showNewTodo, setShowNewTodo] = useState(false);
+
+  const handleCreate = async (todo: CreateTodoReqBody) => {
+    try {
+      const res = await createTodo(todo).unwrap();
+      trigger(res?.data.listId);
+    } catch (error) {}
+  };
 
   const edit = (todoId: ITodo['id'] | null) => {
     setEditingTodoId(todoId);
@@ -62,7 +69,7 @@ const TodoList = () => {
             showNewTodo={showNewTodo}
             onBlur={(value) => {
               if (value) {
-                // TODO: create todo API
+                handleCreate({ title: value, status: TodoStatus.UNFINISH, listId: selectedListId });
               } else {
                 setShowNewTodo(false);
               }

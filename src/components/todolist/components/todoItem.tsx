@@ -68,8 +68,8 @@ const TodoItem = ({
               value={todoInfo.title}
               className="edit w-full text-content-1"
               bordered={false}
-              onBlur={() => {
-                onBlur?.(editField.current?.input?.value || '');
+              onBlur={(e) => {
+                onBlur?.(e.target.value);
               }}
               onChange={(e) => setTodoInfo((prev) => ({ ...prev, title: e.target.value }))}
               // onPressEnter={(e) => {}}
