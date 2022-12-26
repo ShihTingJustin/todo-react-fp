@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { todoApi } from '@Services/todoApi';
 import TodoListHeader from '@Components/todolist/components/header';
 import TodoItem from '@Components/todolist/components/todoItem';
+import Blank from '@Components/todolist/components/blank';
 import { useAppSelector } from '@Hooks/useAppRedux';
 import { CreateTodoReqBody, UpdateTodoReqBody, TodoStatus, ITodo } from '@Interfaces/I_todo';
 
@@ -44,17 +45,6 @@ const TodoList = () => {
     updateTodo({ todoId: todoInfo.id, status: todoInfo.status });
   };
 
-  const Nothing = useMemo(() => {
-    return (
-      <div
-        className="flex flex-col grow justify-center items-center"
-        onClick={() => setShowNewTodo(true)}
-      >
-        <div>No Todos</div>
-      </div>
-    );
-  }, []);
-
   return (
     <div className="todo-list flex flex-col h-full">
       <TodoListHeader
@@ -86,9 +76,9 @@ const TodoList = () => {
             />
           ))
         ) : (
-          !showNewTodo && <>{Nothing}</>
+          !showNewTodo && <Blank text="No Todos" onClick={() => setShowNewTodo(true)} />
         )}
-        {showNewTodo && (
+        {showNewTodo ? (
           <TodoItem
             todo={{
               id: '123',
@@ -105,6 +95,8 @@ const TodoList = () => {
               setShowNewTodo(false);
             }}
           />
+        ) : (
+          todoList?.data?.data?.length && <Blank text="" onClick={() => setShowNewTodo(true)} />
         )}
       </div>
     </div>
