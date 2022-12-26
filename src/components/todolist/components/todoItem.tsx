@@ -9,11 +9,13 @@ import { ITodo, TodoStatus } from '@Interfaces/I_todo';
 
 const TodoItem = ({
   todo,
+  onToggle,
   onEdit,
   onBlur,
   showNewTodo,
 }: {
   todo: ITodo;
+  onToggle?: (todoInfo: ITodo) => void;
   onEdit?: (id: ITodo['id']) => void;
   onBlur?: (todoInfo: ITodo) => void;
   showNewTodo?: boolean;
@@ -32,12 +34,14 @@ const TodoItem = ({
     }
   }, [showNewTodo]);
 
-  const toggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setTodoInfo((prev) => ({
-      ...prev,
-      status: prev.status === TodoStatus.FINISH ? TodoStatus.UNFINISH : TodoStatus.FINISH,
-    }));
+  const handleClick = () => {
+    setTodoInfo((prev) => {
+      const updateStatus =
+        prev.status === TodoStatus.FINISH ? TodoStatus.UNFINISH : TodoStatus.FINISH;
+      const updateTodoInfo = { ...prev, status: updateStatus };
+      onToggle?.(updateTodoInfo);
+      return updateTodoInfo;
+    });
   };
 
   return (
@@ -50,7 +54,7 @@ const TodoItem = ({
             type="checkbox"
             checked={todoInfo.status === TodoStatus.FINISH}
           />
-          <label htmlFor={todoInfo.id} onClick={toggle}>
+          <label htmlFor={todoInfo.id} onClick={handleClick}>
             <div className="w-[1.375rem] h-[1.375rem]">
               {todoInfo.status === TodoStatus.FINISH ? (
                 <Finished fill="#0071EB" />

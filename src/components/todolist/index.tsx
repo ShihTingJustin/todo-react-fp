@@ -43,6 +43,10 @@ const TodoList = () => {
     } catch (error) {}
   };
 
+  const handleToggle = (todoInfo: ITodo) => {
+    updateTodo({ todoId: todoInfo.id, status: todoInfo.status });
+  };
+
   const edit = (todoId: ITodo['id'] | null) => {
     setEditingTodoId(todoId);
   };
@@ -61,8 +65,9 @@ const TodoList = () => {
               key={index}
               todo={todo}
               onEdit={edit}
+              onToggle={handleToggle}
               onBlur={(todoInfo) => {
-                console.log(todoInfo.title)
+                console.log(todoInfo.title);
                 if (todoInfo.title) {
                   const { id, ...rest } = todoInfo;
                   handleUpdate({ todoId: id, ...rest });
