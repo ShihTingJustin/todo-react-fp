@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { todoApi } from '@Services/todoApi';
 import TodoListHeader from '@Components/todolist/components/header';
 import TodoItem from '@Components/todolist/components/todoItem';
@@ -9,7 +8,7 @@ import { CreateTodoReqBody, UpdateTodoReqBody, TodoStatus, ITodo } from '@Interf
 const TodoList = () => {
   const { selectedListId } = useAppSelector((state) => state.list);
   const [getTodoByListId, todoList] = todoApi.useLazyGetAllQuery();
-  const [createTodo, { isLoading, isError }] = todoApi.useCreateTodoMutation();
+  const [createTodo, { isLoading: isCreateTodoLoading, isError }] = todoApi.useCreateTodoMutation();
   const [updateTodo, { isLoading: isUpdateTodoLoading, isError: isUpdateTodoError }] =
     todoApi.useUpdateTodoMutation();
   const [deleteTodo, { isLoading: isDeleteTodoLoading, isError: isDeleteTodoError }] =
@@ -45,6 +44,17 @@ const TodoList = () => {
     updateTodo({ todoId: todoInfo.id, status: todoInfo.status });
   };
 
+  const Nothing = useMemo(() => {
+    return (
+      <div
+        className="flex flex-col grow justify-center items-center"
+        onClick={() => setShowNewTodo(true)}
+      >
+        <div>No Todos</div>
+      </div>
+    );
+  }, []);
+
   return (
     <div className="todo-list flex flex-col h-full">
       <TodoListHeader title={'list title'} plusButtonDisabled={showNewTodo} />
@@ -53,7 +63,7 @@ const TodoList = () => {
           <>Oh no, there was an error</>
         ) : todoList?.isLoading ? (
           <>Loading...</>
-        ) : todoList?.data ? (
+        ) : todoList?.data?.data?.length ? (
           todoList?.data?.data?.map((todo, index) => (
             <TodoItem
               key={index}
@@ -72,9 +82,9 @@ const TodoList = () => {
             />
           ))
         ) : (
-          <></>
+          !showNewTodo && <>{Nothing}</>
         )}
-        {showNewTodo ? (
+        {showNewTodo && (
           <TodoItem
             todo={{
               id: '123',
@@ -91,13 +101,6 @@ const TodoList = () => {
               setShowNewTodo(false);
             }}
           />
-        ) : (
-          <div
-            className="flex flex-col grow justify-center items-center"
-            onClick={() => setShowNewTodo(true)}
-          >
-            <div>nothing</div>
-          </div>
         )}
       </div>
     </div>
