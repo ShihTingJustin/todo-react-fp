@@ -8,7 +8,7 @@ import Finished from '@Assets/finished';
 import { ITodo, TodoStatus } from '@Interfaces/I_todo';
 
 const TodoItem = ({
-  todo: { id, title, status, priority },
+  todo,
   onEdit,
   onBlur,
   showNewTodo,
@@ -19,7 +19,11 @@ const TodoItem = ({
   showNewTodo?: boolean;
 }) => {
   const editField = useRef<InputRef | null>(null);
-  const [checked, setChecked] = useState(status === TodoStatus.FINISH);
+  const [todoInfo, setTodoInfo] = useState(todo);
+
+  useEffect(() => {
+    setTodoInfo(todo);
+  }, [todo]);
 
   useEffect(() => {
     if (showNewTodo) {
@@ -30,32 +34,44 @@ const TodoItem = ({
 
   const toggle = (e: React.MouseEvent) => {
     e.preventDefault();
-    setChecked((prev) => !prev);
+    setTodoInfo((prev) => ({
+      ...prev,
+      status: prev.status === TodoStatus.FINISH ? TodoStatus.UNFINISH : TodoStatus.FINISH,
+    }));
   };
 
   return (
     <div className="rowgroup">
       <div className="content flex items-center py-3 pr-5 pl-6 w-full">
         <div className="mr-3">
-          <Input id={id} className="toggle hidden" type="checkbox" checked={checked} />
-          <label htmlFor={id} onClick={toggle}>
+          <Input
+            id={todoInfo.id}
+            className="toggle hidden"
+            type="checkbox"
+            checked={todoInfo.status === TodoStatus.FINISH}
+          />
+          <label htmlFor={todoInfo.id} onClick={toggle}>
             <div className="w-[1.375rem] h-[1.375rem]">
-              {checked ? <Finished fill="#0071EB" /> : <Unfinished fill="#c4c4c6" />}
+              {todoInfo.status === TodoStatus.FINISH ? (
+                <Finished fill="#0071EB" />
+              ) : (
+                <Unfinished fill="#c4c4c6" />
+              )}
             </div>
           </label>
         </div>
         <div className="todo-item w-full">
           <div className="flex items-center w-full border-b border-border-gray2">
-            {priority && <div>!</div>}
+            {todoInfo?.priority && <div>!</div>}
             <Input
               ref={editField}
-              defaultValue={title}
+              value={todoInfo.title}
               className="edit w-full text-content-1"
               bordered={false}
               onBlur={() => {
                 onBlur?.(editField.current?.input?.value || '');
               }}
-              // onChange={(e) => handleChange(e)}
+              onChange={(e) => setTodoInfo((prev) => ({ ...prev, title: e.target.value }))}
               // onPressEnter={(e) => {}}
             />
           </div>
