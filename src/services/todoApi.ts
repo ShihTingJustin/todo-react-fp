@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import ITodo from '@Interfaces/I_todo';
+import { ITodo, CreateTodoReqBody } from '@Interfaces/I_todo';
 
 export interface Response<T = any> {
   data: T;
@@ -8,7 +8,14 @@ export interface Response<T = any> {
 
 export const todoApi = createApi({
   reducerPath: 'todoApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_ENDPOINT }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.REACT_APP_API_ENDPOINT,
+    headers: {
+      'content-type': 'application/json',
+      'accept-language': '*',
+    },
+    timeout: 30000,
+  }),
   tagTypes: ['Todo'],
   // refetchOnFocus: true,
   // refetchOnReconnect: true,
@@ -20,6 +27,14 @@ export const todoApi = createApi({
         return `todo/${listId}`;
       },
       providesTags: (result, error, id) => [{ type: 'Todo', id }],
+    }),
+    createTodo: builder.mutation<Response<ITodo>, CreateTodoReqBody>({
+      query: (todo) => ({
+        url: 'todo',
+        method: 'POST',
+        body: todo,
+      }),
+      invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
     }),
   }),
 });

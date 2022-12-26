@@ -19,4 +19,6 @@ export type ITodo = {
   priority?: TodoPriority;
 };
 
+export type CreateTodoReqBody = Omit<ITodo, 'id'>;
+
 export default ITodo;
