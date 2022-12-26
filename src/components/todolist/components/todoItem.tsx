@@ -15,7 +15,7 @@ const TodoItem = ({
 }: {
   todo: ITodo;
   onEdit?: (id: ITodo['id']) => void;
-  onBlur?: (inputValue: ITodo['title']) => void;
+  onBlur?: (todoInfo: ITodo) => void;
   showNewTodo?: boolean;
 }) => {
   const editField = useRef<InputRef | null>(null);
@@ -69,7 +69,7 @@ const TodoItem = ({
               className="edit w-full text-content-1"
               bordered={false}
               onBlur={(e) => {
-                onBlur?.(e.target.value);
+                onBlur?.({ ...todoInfo, title: e.target.value });
               }}
               onChange={(e) => setTodoInfo((prev) => ({ ...prev, title: e.target.value }))}
               // onPressEnter={(e) => {}}

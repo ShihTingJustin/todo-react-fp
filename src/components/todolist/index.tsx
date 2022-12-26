@@ -4,12 +4,14 @@ import { todoApi } from '@Services/todoApi';
 import TodoListHeader from '@Components/todolist/components/header';
 import TodoItem from '@Components/todolist/components/todoItem';
 import { useAppSelector } from '@Hooks/useAppRedux';
-import { CreateTodoReqBody, TodoStatus, ITodo } from '@Interfaces/I_todo';
+import { CreateTodoReqBody, UpdateTodoReqBody, TodoStatus, ITodo } from '@Interfaces/I_todo';
 
 const TodoList = () => {
   const { selectedListId } = useAppSelector((state) => state.list);
   const [trigger, result] = todoApi.useLazyGetAllQuery();
   const [createTodo, { isLoading, isError }] = todoApi.useCreateTodoMutation();
+  const [updateTodo, { isLoading: isUpdateTodoLoading, isError: isUpdateTodoError }] =
+    todoApi.useUpdateTodoMutation();
 
   useEffect(() => {
     if (selectedListId) {
@@ -26,6 +28,10 @@ const TodoList = () => {
       const res = await createTodo(todo).unwrap();
       trigger(res?.data.listId);
     } catch (error) {}
+  };
+
+  const handleUpdate = async (todo: UpdateTodoReqBody) => {
+    updateTodo(todo);
   };
 
   const edit = (todoId: ITodo['id'] | null) => {
@@ -46,9 +52,11 @@ const TodoList = () => {
               key={index}
               todo={todo}
               onEdit={edit}
-              onBlur={(value) => {
-                if (value) {
-                  // TODO: update todo API
+              onBlur={(todoInfo) => {
+                if (todoInfo) {
+                  console.log(todoInfo);
+                  const { id, ...rest } = todoInfo;
+                  handleUpdate({ todoId: id, ...rest });
                 } else {
                   // TODO: delete todo API
                 }
@@ -67,9 +75,10 @@ const TodoList = () => {
               listId: selectedListId,
             }}
             showNewTodo={showNewTodo}
-            onBlur={(value) => {
-              if (value) {
-                handleCreate({ title: value, status: TodoStatus.UNFINISH, listId: selectedListId });
+            onBlur={(todoInfo) => {
+              if (todoInfo.title) {
+                  const { id, ...rest } = todoInfo;
+                  handleCreate(rest);
               } else {
                 setShowNewTodo(false);
               }
