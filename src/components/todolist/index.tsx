@@ -12,6 +12,8 @@ const TodoList = () => {
   const [createTodo, { isLoading, isError }] = todoApi.useCreateTodoMutation();
   const [updateTodo, { isLoading: isUpdateTodoLoading, isError: isUpdateTodoError }] =
     todoApi.useUpdateTodoMutation();
+  const [deleteTodo, { isLoading: isDeleteTodoLoading, isError: isDeleteTodoError }] =
+    todoApi.useDeleteTodoMutation();
 
   useEffect(() => {
     if (selectedListId) {
@@ -34,6 +36,13 @@ const TodoList = () => {
     updateTodo(todo);
   };
 
+  const handleDelete = async (todoId: ITodo['id']) => {
+    try {
+      deleteTodo(todoId);
+      trigger(selectedListId);
+    } catch (error) {}
+  };
+
   const edit = (todoId: ITodo['id'] | null) => {
     setEditingTodoId(todoId);
   };
@@ -53,12 +62,11 @@ const TodoList = () => {
               todo={todo}
               onEdit={edit}
               onBlur={(todoInfo) => {
-                if (todoInfo) {
-                  console.log(todoInfo);
+                if (todoInfo.title) {
                   const { id, ...rest } = todoInfo;
                   handleUpdate({ todoId: id, ...rest });
                 } else {
-                  // TODO: delete todo API
+                  handleDelete(todoInfo.id);
                 }
               }}
             />
@@ -77,8 +85,8 @@ const TodoList = () => {
             showNewTodo={showNewTodo}
             onBlur={(todoInfo) => {
               if (todoInfo.title) {
-                  const { id, ...rest } = todoInfo;
-                  handleCreate(rest);
+                const { id, ...rest } = todoInfo;
+                handleCreate(rest);
               } else {
                 setShowNewTodo(false);
               }
