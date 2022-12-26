@@ -10,9 +10,10 @@ export const todoApi = createApi({
   reducerPath: 'todoApi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_ENDPOINT,
+    mode: 'cors',
     headers: {
+      origin: process.env.REACT_APP_DOMAIN || 'http://localhost:3001',
       'content-type': 'application/json',
-      'accept-language': '*',
     },
     timeout: 30000,
   }),

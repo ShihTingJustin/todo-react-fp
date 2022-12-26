@@ -15,7 +15,14 @@ export interface GetListRes {
 // 以 getAll 為例，使用時會組成 useGetAllQuery 的 function
 export const listApi = createApi({
   reducerPath: 'listApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_API_ENDPOINT }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.REACT_APP_API_ENDPOINT,
+    mode: 'cors',
+    headers: {
+      origin: process.env.REACT_APP_DOMAIN || 'http://localhost:3001',
+      'content-type': 'application/json',
+    },
+  }),
   tagTypes: ['List'],
   endpoints: (builder) => ({
     getAll: builder.query<Response<GetListRes[]>, void>({
