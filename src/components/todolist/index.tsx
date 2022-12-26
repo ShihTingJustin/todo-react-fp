@@ -57,7 +57,11 @@ const TodoList = () => {
 
   return (
     <div className="todo-list flex flex-col h-full">
-      <TodoListHeader title={'list title'} plusButtonDisabled={showNewTodo} />
+      <TodoListHeader
+        title={'list title'}
+        plusButtonDisabled={showNewTodo}
+        onPlusClick={() => setShowNewTodo(true)}
+      />
       <div className="flex flex-col grow">
         {todoList?.isError ? (
           <>Oh no, there was an error</>
