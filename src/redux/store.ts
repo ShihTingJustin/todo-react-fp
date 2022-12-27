@@ -3,10 +3,12 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { listApi } from '@Services/listApi';
 import { todoApi } from '@Services/todoApi';
 import listReducer from '@Slices/listSlice';
+import todoReducer from '@Slices/todoSlice';
 
 export const store = configureStore({
   reducer: {
     list: listReducer,
+    todo: todoReducer,
     // Add the generated reducer as a specific top-level slice
     [listApi.reducerPath]: listApi.reducer,
     [todoApi.reducerPath]: todoApi.reducer,
