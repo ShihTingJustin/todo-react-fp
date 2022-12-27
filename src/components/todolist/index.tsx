@@ -4,9 +4,15 @@ import TodoListHeader from '@Components/todolist/components/header';
 import TodoItem from '@Components/todolist/components/todoItem';
 import Blank from '@Components/todolist/components/blank';
 import { useAppSelector } from '@Hooks/useAppRedux';
-import { CreateTodoReqBody, UpdateTodoReqBody, TodoStatus, ITodo } from '@Interfaces/I_todo';
+import {
+  CreateTodoReqBody,
+  UpdateTodoReqBody,
+  TodoStatus,
+  ITodo,
+  TodoListMode,
+} from '@Interfaces/I_todo';
 
-const TodoList = () => {
+const TodoList = ({ mode }: { mode: TodoListMode }) => {
   const { selectedListId } = useAppSelector((state) => state.list);
 
   const [showNewTodo, setShowNewTodo] = useState(false);
@@ -20,10 +26,10 @@ const TodoList = () => {
     todoApi.useDeleteTodoMutation();
 
   useEffect(() => {
-    if (selectedListId) {
+    if (mode === TodoListMode.NORMAL && selectedListId) {
       getAllTodoByListId(selectedListId);
     }
-  }, [selectedListId]);
+  }, [mode, selectedListId]);
 
   const handleCreate = async (todo: CreateTodoReqBody) => {
     try {

@@ -30,11 +30,8 @@ function Home() {
     setMode(keyword ? TodoListMode.SEARCH : TodoListMode.NORMAL);
     if (!keyword.trim()) return;
 
-    dispatch(setSelectedListId('0'));
-
     const result = await searchTodo({ keyword }).unwrap();
     setSearchResult(result.data);
-    console.log(result);
   };
 
   return (
@@ -49,7 +46,7 @@ function Home() {
         </div>
         <div className="grow">
           {mode === TodoListMode.NORMAL ? (
-            <TodoList />
+            <TodoList mode={mode} />
           ) : (
             <div className="todo-list flex flex-col h-full">
               {searchResult.map((item) => (

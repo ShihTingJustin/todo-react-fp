@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
 import { Divider } from 'antd';
-import SearchField from './components/searchField';
 import { listApi } from '@Services/listApi';
 import { setSelectedListId } from '@Slices/listSlice';
 import ListIcon from '@Assets/list';
@@ -51,7 +50,7 @@ const Sidebar = ({ mode }: { mode: TodoListMode }) => {
     if (mode === TodoListMode.NORMAL) {
       getAllList();
     }
-  }, [mode]);
+  }, []);
 
   useEffect(() => {
     if (data?.data[0]?.id && mode === TodoListMode.NORMAL) {
@@ -66,7 +65,7 @@ const Sidebar = ({ mode }: { mode: TodoListMode }) => {
           <div key={item.id}>
             <div
               onClick={() => dispatch(setSelectedListId(item.id))}
-              data-selected={selectedListId === item.id}
+              data-selected={mode === TodoListMode.NORMAL ? selectedListId === item.id : false}
             >
               <SidebarItem {...item} />
             </div>
