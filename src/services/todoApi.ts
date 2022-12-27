@@ -27,7 +27,13 @@ export const todoApi = createApi({
   // refetchOnReconnect: true,
   // refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
-    getAll: builder.query<Response<ITodo[]>, string>({
+    getAllTodoByListId: builder.query<
+      Response<{
+        listTitle: string;
+        todo: ITodo[];
+      }>,
+      string
+    >({
       query: (listId) => {
         if (!listId) console.log('invalid listId');
         return `todo/${listId}`;

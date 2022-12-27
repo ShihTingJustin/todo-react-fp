@@ -12,7 +12,7 @@ const TodoList = () => {
   const [showNewTodo, setShowNewTodo] = useState(false);
   const [hiddenTodo, setHiddenTodo] = useState<Set<string>>(new Set());
 
-  const [getTodoByListId, todoList] = todoApi.useLazyGetAllQuery();
+  const [getAllTodoByListId, todoList] = todoApi.useLazyGetAllTodoByListIdQuery();
   const [createTodo, { isLoading: isCreateTodoLoading, isError }] = todoApi.useCreateTodoMutation();
   const [updateTodo, { isLoading: isUpdateTodoLoading, isError: isUpdateTodoError }] =
     todoApi.useUpdateTodoMutation();
@@ -21,14 +21,14 @@ const TodoList = () => {
 
   useEffect(() => {
     if (selectedListId) {
-      getTodoByListId(selectedListId);
+      getAllTodoByListId(selectedListId);
     }
   }, [selectedListId]);
 
   const handleCreate = async (todo: CreateTodoReqBody) => {
     try {
       const res = await createTodo(todo).unwrap();
-      getTodoByListId(res?.data.listId);
+      getAllTodoByListId(res?.data.listId);
     } catch (error) {}
   };
 
@@ -39,7 +39,7 @@ const TodoList = () => {
   const handleDelete = async (todoId: ITodo['id']) => {
     try {
       deleteTodo(todoId);
-      getTodoByListId(selectedListId);
+      getAllTodoByListId(selectedListId);
     } catch (error) {}
   };
 
@@ -50,7 +50,7 @@ const TodoList = () => {
   return (
     <div className="todo-list flex flex-col h-full">
       <TodoListHeader
-        title={'list title'}
+        title={todoList?.data?.data.listTitle || ''}
         plusButtonDisabled={showNewTodo}
         onPlusClick={() => setShowNewTodo(true)}
       />
@@ -59,8 +59,8 @@ const TodoList = () => {
           <>Oh no, there was an error</>
         ) : todoList?.isLoading ? (
           <>Loading...</>
-        ) : todoList?.data?.data?.length ? (
-          todoList?.data?.data?.map((todo, index) => (
+        ) : todoList?.data?.data?.todo?.length ? (
+          todoList?.data?.data?.todo?.map((todo, index) => (
             <TodoItem
               key={index}
               todo={todo}
@@ -99,7 +99,9 @@ const TodoList = () => {
             }}
           />
         ) : (
-          todoList?.data?.data?.length && <Blank text="" onClick={() => setShowNewTodo(true)} />
+          todoList?.data?.data?.todo?.length && (
+            <Blank text="" onClick={() => setShowNewTodo(true)} />
+          )
         )}
       </div>
     </div>
