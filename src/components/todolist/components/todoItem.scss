@@ -1,0 +1,10 @@
+.todo-item {
+  .delete-button {
+    display: none;
+  }
+  &:hover {
+    .delete-button {
+      display: flex;
+    }
+  }
+}

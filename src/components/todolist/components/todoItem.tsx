@@ -1,22 +1,27 @@
 import React, { Ref, useEffect, useState, useRef } from 'react';
 
 import { Input, InputRef } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 
 import Unfinished from '@Assets/unfinished';
 import Finished from '@Assets/finished';
 
 import { ITodo, TodoStatus } from '@Interfaces/I_todo';
 
+import './todoItem.scss';
+
 const TodoItem = ({
   todo,
   onToggle,
   onBlur,
+  onDelete,
   showNewTodo,
   className,
 }: {
   todo: ITodo;
   onToggle?: (todoInfo: ITodo) => void;
   onBlur?: (todoInfo: ITodo) => void;
+  onDelete?: (todoId: ITodo['id']) => void;
   showNewTodo?: boolean;
   className?: string;
 }) => {
@@ -78,6 +83,14 @@ const TodoItem = ({
               onChange={(e) => setTodoInfo((prev) => ({ ...prev, title: e.target.value }))}
               // onPressEnter={(e) => {}}
             />
+            {!showNewTodo && (
+              <div
+                className="delete-button px-3 py-1 cursor-pointer"
+                onClick={() => onDelete?.(todoInfo.id)}
+              >
+                <CloseOutlined />
+              </div>
+            )}
           </div>
         </div>
       </div>

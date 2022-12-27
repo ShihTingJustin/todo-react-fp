@@ -45,6 +45,7 @@ const TodoList = () => {
 
   const handleDelete = async (todoId: ITodo['id']) => {
     try {
+      setHiddenTodo((prev) => prev.add(todoId));
       deleteTodo(todoId);
       getAllTodoByListId(selectedListId);
     } catch (error) {}
@@ -74,15 +75,14 @@ const TodoList = () => {
               className={`${hiddenTodo.has(todo.id) && 'hidden'}`}
               onToggle={handleToggle}
               onBlur={(todoInfo) => {
-                console.log(todoInfo.title);
                 if (todoInfo.title) {
                   const { id, ...rest } = todoInfo;
                   handleUpdate({ todoId: id, ...rest });
                 } else {
                   handleDelete(todoInfo.id);
-                  setHiddenTodo((prev) => prev.add(todoInfo.id));
                 }
               }}
+              onDelete={handleDelete}
             />
           ))
         ) : (

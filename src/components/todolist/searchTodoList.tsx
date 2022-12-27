@@ -46,7 +46,6 @@ const SearchTodoList = ({
               className={`${hiddenTodo.has(todo.id) && 'hidden'}`}
               onToggle={handleToggle}
               onBlur={(todoInfo) => {
-                console.log(todoInfo.title);
                 if (todoInfo.title) {
                   const { id, ...rest } = todoInfo;
                   handleUpdate({ todoId: id, ...rest });
