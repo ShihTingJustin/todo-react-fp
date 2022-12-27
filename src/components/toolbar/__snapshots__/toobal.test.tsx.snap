@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Button component [Render] match snapshot 1`] = `
+<div
+  className="w-full flex justify-between items-center bg-bg-gray1 border-b border-solid border-border-gray1 h-11"
+  data-testid="toolbar"
+>
+  <div
+    className="pl-8 py-4"
+  >
+    <div
+      className="text-title-1 text-primary-blue"
+    >
+      TodoLists
+    </div>
+  </div>
+  <div>
+    <div>
+      image
+    </div>
+  </div>
+</div>
+`;
