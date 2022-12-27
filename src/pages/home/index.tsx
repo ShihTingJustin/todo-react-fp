@@ -8,7 +8,7 @@ import { setSelectedListId } from '@Slices/listSlice';
 import Toolbar from '@Components/toolbar';
 import Sidebar from '@Components/sidebar';
 import TodoList from '@Components/todolist';
-import SearchTodoList from '@Components/todolist/searchTodoList';
+import { SearchTodoList } from '@Components/todolist';
 import SearchField from '@Components/sidebar/components/searchField';
 import { TodoListMode, SearchTodoResponse } from '@Interfaces/I_todo';
 import './home.scss';
