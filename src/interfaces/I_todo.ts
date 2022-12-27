@@ -1,4 +1,5 @@
 import React from 'react';
+import { IList } from '@Interfaces/I_list';
 
 export enum TodoListMode {
   NORMAL = 'normal',
@@ -24,6 +25,9 @@ export type ITodo = {
   priority?: TodoPriority;
 };
 
+export type SearchTodoResponse = IList & {
+  todo: ITodo[];
+};
 export type CreateTodoReqBody = Omit<ITodo, 'id'>;
 export type UpdateTodoReqBody = Partial<Omit<ITodo, 'id'>> & { todoId: string };
 
