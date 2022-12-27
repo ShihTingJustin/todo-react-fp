@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useAppSelector } from '@Hooks/useAppRedux';
+import { TodoListMode } from '@Interfaces/I_todo';
 
 import { Button } from 'antd';
 
@@ -20,28 +22,34 @@ const TodoListHeader = ({
   onPlusClick = () => {},
   onMoreClick = () => {},
 }: TodoListHeaderProps) => {
+  const { mode } = useAppSelector((state) => state.todo);
+
   return (
     <div className="flex justify-between items-center pl-6 pr-5 h-[3.125rem]">
       <div className="text-title-2 text-primary-blue h-[2.625rem]">{title}</div>
       <div className="right-wrap">
-        <Button
-          className="mr-6"
-          size="small"
-          shape="circle"
-          type="text"
-          disabled={plusButtonDisabled}
-          data-disabled={plusButtonDisabled}
-          icon={<PlusIcon fill="#0071EB" />}
-          onClick={onPlusClick}
-        />
-        <Button
-          size="small"
-          shape="circle"
-          type="text"
-          data-disabled={false}
-          icon={<MoreIcon fill="#0071EB" />}
-          onClick={onMoreClick}
-        />
+        {mode === TodoListMode.NORMAL && (
+          <>
+            <Button
+              className="mr-6"
+              size="small"
+              shape="circle"
+              type="text"
+              disabled={plusButtonDisabled}
+              data-disabled={plusButtonDisabled}
+              icon={<PlusIcon fill="#0071EB" />}
+              onClick={onPlusClick}
+            />
+            <Button
+              size="small"
+              shape="circle"
+              type="text"
+              data-disabled={false}
+              icon={<MoreIcon fill="#0071EB" />}
+              onClick={onMoreClick}
+            />
+          </>
+        )}
       </div>
     </div>
   );
