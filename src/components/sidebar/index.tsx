@@ -6,6 +6,7 @@ import { listApi } from '@Services/listApi';
 import { setSelectedListId } from '@Slices/listSlice';
 import ListIcon from '@Assets/list';
 import { RootState } from '@Redux/store';
+import { TodoListMode } from '@Interfaces/I_todo';
 
 import './sidebar.scss';
 
@@ -40,17 +41,23 @@ type SidebarItemProps = {
   icon?: string;
 };
 
-const Sidebar = () => {
+const Sidebar = ({ mode }: { mode: TodoListMode }) => {
   const dispatch = useAppDispatch();
   const { selectedListId } = useAppSelector((state: RootState) => state.list);
 
-  const { data } = listApi.useGetAllQuery();
+  const [getAllList, { data, isLoading, isError }] = listApi.useLazyGetAllQuery();
 
   useEffect(() => {
-    if (data?.data[0]?.id) {
+    if (mode === TodoListMode.NORMAL) {
+      getAllList();
+    }
+  }, [mode]);
+
+  useEffect(() => {
+    if (data?.data[0]?.id && mode === TodoListMode.NORMAL) {
       dispatch(setSelectedListId(data?.data[0]?.id));
     }
-  }, [data]);
+  }, [data, mode]);
 
   return (
     <div className="scrollable-area px-3 pt-3">

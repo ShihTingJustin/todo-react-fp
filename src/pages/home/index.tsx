@@ -27,10 +27,10 @@ function Home() {
     todoApi.useSearchMutation();
 
   const handleSearch = async (keyword: string) => {
+    setMode(keyword ? TodoListMode.SEARCH : TodoListMode.NORMAL);
     if (!keyword.trim()) return;
 
     dispatch(setSelectedListId('0'));
-    setMode(keyword ? TodoListMode.SEARCH : TodoListMode.NORMAL);
 
     const result = await searchTodo({ keyword }).unwrap();
     setSearchResult(result.data);
@@ -45,7 +45,7 @@ function Home() {
           <div className="px-3 pt-3">
             <SearchField onChange={handleSearch} />
           </div>
-          <Sidebar />
+          <Sidebar mode={mode} />
         </div>
         <div className="grow">
           {mode === TodoListMode.NORMAL ? (
