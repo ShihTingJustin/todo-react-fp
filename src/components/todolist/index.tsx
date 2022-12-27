@@ -36,6 +36,7 @@ const TodoList = () => {
 
   const handleCreate = async (todo: CreateTodoReqBody) => {
     try {
+      if (!todo.title.trim()) return;
       setShowNewTodo(false);
       const res = await createTodo(todo).unwrap();
       getAllList();
@@ -79,16 +80,15 @@ const TodoList = () => {
               todo={todo}
               className={`${hiddenTodo.has(todo.id) && 'hidden'}`}
               onToggle={handleToggle}
+              onDelete={handleDelete}
               onBlur={(todoInfo) => {
-                if (todoInfo.title) {
+                if (todoInfo.title.trim()) {
                   const { id, ...rest } = todoInfo;
                   handleUpdate({ todoId: id, ...rest });
                 } else {
                   handleDelete(todoInfo.id);
                 }
               }}
-              onDelete={handleDelete}
-              onPressEnter={handleCreate}
             />
           ))
         ) : (
@@ -104,13 +104,12 @@ const TodoList = () => {
             }}
             showNewTodo={showNewTodo}
             onBlur={(todoInfo) => {
-              if (todoInfo.title) {
+              if (todoInfo.title.trim()) {
                 const { id, ...rest } = todoInfo;
                 handleCreate(rest);
               }
               setShowNewTodo(false);
             }}
-            onPressEnter={handleCreate}
           />
         ) : (
           todoList?.data?.data?.todo?.length && (

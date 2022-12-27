@@ -82,8 +82,12 @@ const TodoItem = ({
               onBlur={(e) => {
                 onBlur?.({ ...todoInfo, title: e.target.value });
               }}
-              onChange={(e) => setTodoInfo((prev) => ({ ...prev, title: e.target.value }))}
-              onPressEnter={() => onPressEnter?.(todoInfo)}
+              onChange={(e) => {
+                setTodoInfo((prev) => ({ ...prev, title: e.target.value }));
+              }}
+              onPressEnter={() => {
+                editField.current?.blur();
+              }}
             />
             {!showNewTodo && (
               <div

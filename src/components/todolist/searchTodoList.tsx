@@ -49,19 +49,15 @@ const SearchTodoList = ({
               todo={todo}
               className={`${hiddenTodo.has(todo.id) && 'hidden'}`}
               onToggle={handleToggle}
-              onPressEnter={(todoInfo) => {
-                const { id, ...rest } = todoInfo;
-                handleUpdate({ todoId: id, ...rest });
-              }}
+              onDelete={handleDelete}
               onBlur={(todoInfo) => {
-                if (todoInfo.title) {
+                if (todoInfo.title.trim()) {
                   const { id, ...rest } = todoInfo;
                   handleUpdate({ todoId: id, ...rest });
                 } else {
                   handleDelete(todoInfo.id);
                 }
               }}
-              onDelete={handleDelete}
             />
           ))
         ) : (
