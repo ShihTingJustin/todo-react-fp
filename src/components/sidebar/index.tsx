@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
 import { Divider } from 'antd';
 import { listApi } from '@Services/listApi';
 import { setSelectedListId } from '@Slices/listSlice';
+import { setMode } from '@Slices/todoSlice';
 import ListIcon from '@Assets/list';
-import { RootState } from '@Redux/store';
 import { TodoListMode } from '@Interfaces/I_todo';
 
 import './sidebar.scss';
@@ -40,9 +40,10 @@ type SidebarItemProps = {
   icon?: string;
 };
 
-const Sidebar = ({ mode }: { mode: TodoListMode }) => {
+const Sidebar = () => {
   const dispatch = useAppDispatch();
-  const { selectedListId } = useAppSelector((state: RootState) => state.list);
+  const { selectedListId } = useAppSelector((state) => state.list);
+  const { mode } = useAppSelector((state) => state.todo);
 
   const [getAllList, { data, isLoading, isError }] = listApi.useLazyGetAllQuery();
 
@@ -56,7 +57,7 @@ const Sidebar = ({ mode }: { mode: TodoListMode }) => {
     if (data?.data[0]?.id && mode === TodoListMode.NORMAL) {
       dispatch(setSelectedListId(data?.data[0]?.id));
     }
-  }, [data, mode]);
+  }, [data]);
 
   return (
     <div className="scrollable-area px-3 pt-3">
@@ -64,7 +65,12 @@ const Sidebar = ({ mode }: { mode: TodoListMode }) => {
         {data?.data?.map((item, index) => (
           <div key={item.id}>
             <div
-              onClick={() => dispatch(setSelectedListId(item.id))}
+              onClick={() => {
+                if (mode === TodoListMode.SEARCH) {
+                  dispatch(setMode(TodoListMode.NORMAL));
+                }
+                dispatch(setSelectedListId(item.id));
+              }}
               data-selected={mode === TodoListMode.NORMAL ? selectedListId === item.id : false}
             >
               <SidebarItem {...item} />

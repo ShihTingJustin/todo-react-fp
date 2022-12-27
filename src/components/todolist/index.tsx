@@ -12,8 +12,9 @@ import {
   TodoListMode,
 } from '@Interfaces/I_todo';
 
-const TodoList = ({ mode }: { mode: TodoListMode }) => {
+const TodoList = () => {
   const { selectedListId } = useAppSelector((state) => state.list);
+  const { mode } = useAppSelector((state) => state.todo);
 
   const [showNewTodo, setShowNewTodo] = useState(false);
   const [hiddenTodo, setHiddenTodo] = useState<Set<string>>(new Set());
