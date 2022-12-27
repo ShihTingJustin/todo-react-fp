@@ -1,4 +1,4 @@
-import React, { Ref, useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { Input, InputRef } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
@@ -15,6 +15,7 @@ const TodoItem = ({
   onToggle,
   onBlur,
   onDelete,
+  onPressEnter,
   showNewTodo,
   className,
 }: {
@@ -22,6 +23,7 @@ const TodoItem = ({
   onToggle?: (todoInfo: ITodo) => void;
   onBlur?: (todoInfo: ITodo) => void;
   onDelete?: (todoId: ITodo['id']) => void;
+  onPressEnter?: (todoInfo: ITodo) => void;
   showNewTodo?: boolean;
   className?: string;
 }) => {
@@ -50,7 +52,7 @@ const TodoItem = ({
   };
 
   return (
-    <div className={`"rowgroup" ${className}`}>
+    <div tabIndex={0} className={`"rowgroup" ${className}`}>
       <div className="content flex items-center py-3 pr-5 pl-6 w-full">
         <div className="mr-3">
           <Input
@@ -81,7 +83,7 @@ const TodoItem = ({
                 onBlur?.({ ...todoInfo, title: e.target.value });
               }}
               onChange={(e) => setTodoInfo((prev) => ({ ...prev, title: e.target.value }))}
-              // onPressEnter={(e) => {}}
+              onPressEnter={() => onPressEnter?.(todoInfo)}
             />
             {!showNewTodo && (
               <div

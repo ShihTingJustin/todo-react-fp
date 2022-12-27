@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { todoApi } from '@Services/todoApi';
+import { listApi } from '@Services/listApi';
 import TodoListHeader from '@Components/todolist/components/header';
 import TodoItem from '@Components/todolist/components/todoItem';
 import Blank from '@Components/todolist/components/blank';
@@ -25,6 +26,7 @@ const TodoList = () => {
     todoApi.useUpdateTodoMutation();
   const [deleteTodo, { isLoading: isDeleteTodoLoading, isError: isDeleteTodoError }] =
     todoApi.useDeleteTodoMutation();
+  const [getAllList] = listApi.useLazyGetAllQuery();
 
   useEffect(() => {
     if (mode === TodoListMode.NORMAL && selectedListId) {
@@ -34,7 +36,9 @@ const TodoList = () => {
 
   const handleCreate = async (todo: CreateTodoReqBody) => {
     try {
+      setShowNewTodo(false);
       const res = await createTodo(todo).unwrap();
+      getAllList();
       getAllTodoByListId(res?.data.listId);
     } catch (error) {}
   };
@@ -47,6 +51,7 @@ const TodoList = () => {
     try {
       setHiddenTodo((prev) => prev.add(todoId));
       deleteTodo(todoId);
+      getAllList();
       getAllTodoByListId(selectedListId);
     } catch (error) {}
   };
@@ -83,6 +88,7 @@ const TodoList = () => {
                 }
               }}
               onDelete={handleDelete}
+              onPressEnter={handleCreate}
             />
           ))
         ) : (
@@ -104,6 +110,7 @@ const TodoList = () => {
               }
               setShowNewTodo(false);
             }}
+            onPressEnter={handleCreate}
           />
         ) : (
           todoList?.data?.data?.todo?.length && (

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { todoApi } from '@Services/todoApi';
+import { listApi } from '@Services/listApi';
 import TodoListHeader from '@Components/todolist/components/header';
 import TodoItem from '@Components/todolist/components/todoItem';
 import { UpdateTodoReqBody, TodoStatus, ITodo, SearchTodoResponse } from '@Interfaces/I_todo';
@@ -15,6 +16,7 @@ const SearchTodoList = ({
     todoApi.useUpdateTodoMutation();
   const [deleteTodo, { isLoading: isDeleteTodoLoading, isError: isDeleteTodoError }] =
     todoApi.useDeleteTodoMutation();
+  const [getAllList] = listApi.useLazyGetAllQuery();
 
   const handleUpdate = async (todo: UpdateTodoReqBody) => {
     updateTodo(todo);
@@ -22,7 +24,9 @@ const SearchTodoList = ({
 
   const handleDelete = async (todoId: ITodo['id']) => {
     try {
+      setHiddenTodo((prev) => prev.add(todoId));
       deleteTodo(todoId);
+      getAllList();
     } catch (error) {}
   };
 
@@ -45,15 +49,19 @@ const SearchTodoList = ({
               todo={todo}
               className={`${hiddenTodo.has(todo.id) && 'hidden'}`}
               onToggle={handleToggle}
+              onPressEnter={(todoInfo) => {
+                const { id, ...rest } = todoInfo;
+                handleUpdate({ todoId: id, ...rest });
+              }}
               onBlur={(todoInfo) => {
                 if (todoInfo.title) {
                   const { id, ...rest } = todoInfo;
                   handleUpdate({ todoId: id, ...rest });
                 } else {
                   handleDelete(todoInfo.id);
-                  setHiddenTodo((prev) => prev.add(todoInfo.id));
                 }
               }}
+              onDelete={handleDelete}
             />
           ))
         ) : (
