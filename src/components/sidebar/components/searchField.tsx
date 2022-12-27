@@ -8,7 +8,7 @@ const SearchField = ({ onChange }: { onChange: (searchText: string) => void }) =
 
   const handleChange = () => {
     onChange(inputValue);
-  }
+  };
 
   useDebounce(handleChange, 250, [inputValue]);
 

@@ -1,5 +1,10 @@
 import React from 'react';
 
+export enum TodoListMode {
+  NORMAL = 'normal',
+  SEARCH = 'search',
+}
+
 export enum TodoPriority {
   LOW = 'low',
   MED = 'medium',

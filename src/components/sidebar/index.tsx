@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
 import { Divider } from 'antd';
+import SearchField from './components/searchField';
 import { listApi } from '@Services/listApi';
 import { setSelectedListId } from '@Slices/listSlice';
 import ListIcon from '@Assets/list';
@@ -8,7 +9,7 @@ import { RootState } from '@Redux/store';
 
 import './sidebar.scss';
 
-const SidebarItem = ({ title,todoAmount, icon }: SidebarItemProps) => {
+const SidebarItem = ({ title, todoAmount, icon }: SidebarItemProps) => {
   return (
     <div className={`todo-list-menu-item pl-3 h-[3.5rem] flex items-center`} role="listbox">
       <div className="todo-list-menu-item-content flex items-center w-full">
