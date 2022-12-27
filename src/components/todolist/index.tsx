@@ -8,6 +8,10 @@ import { CreateTodoReqBody, UpdateTodoReqBody, TodoStatus, ITodo } from '@Interf
 
 const TodoList = () => {
   const { selectedListId } = useAppSelector((state) => state.list);
+
+  const [showNewTodo, setShowNewTodo] = useState(false);
+  const [hiddenTodo, setHiddenTodo] = useState<Set<string>>(new Set());
+
   const [getTodoByListId, todoList] = todoApi.useLazyGetAllQuery();
   const [createTodo, { isLoading: isCreateTodoLoading, isError }] = todoApi.useCreateTodoMutation();
   const [updateTodo, { isLoading: isUpdateTodoLoading, isError: isUpdateTodoError }] =
@@ -20,8 +24,6 @@ const TodoList = () => {
       getTodoByListId(selectedListId);
     }
   }, [selectedListId]);
-
-  const [showNewTodo, setShowNewTodo] = useState(false);
 
   const handleCreate = async (todo: CreateTodoReqBody) => {
     try {
@@ -62,6 +64,7 @@ const TodoList = () => {
             <TodoItem
               key={index}
               todo={todo}
+              className={`${hiddenTodo.has(todo.id) && 'hidden'}`}
               onToggle={handleToggle}
               onBlur={(todoInfo) => {
                 console.log(todoInfo.title);
@@ -70,7 +73,7 @@ const TodoList = () => {
                   handleUpdate({ todoId: id, ...rest });
                 } else {
                   handleDelete(todoInfo.id);
-                  setShowNewTodo(false);
+                  setHiddenTodo((prev) => prev.add(todoInfo.id));
                 }
               }}
             />

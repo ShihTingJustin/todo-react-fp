@@ -12,11 +12,13 @@ const TodoItem = ({
   onToggle,
   onBlur,
   showNewTodo,
+  className,
 }: {
   todo: ITodo;
   onToggle?: (todoInfo: ITodo) => void;
   onBlur?: (todoInfo: ITodo) => void;
   showNewTodo?: boolean;
+  className?: string;
 }) => {
   const editField = useRef<InputRef | null>(null);
   const [todoInfo, setTodoInfo] = useState(todo);
@@ -43,7 +45,7 @@ const TodoItem = ({
   };
 
   return (
-    <div className="rowgroup">
+    <div className={`"rowgroup" ${className}`}>
       <div className="content flex items-center py-3 pr-5 pl-6 w-full">
         <div className="mr-3">
           <Input
