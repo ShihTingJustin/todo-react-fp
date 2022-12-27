@@ -8,14 +8,14 @@ import { RootState } from '@Redux/store';
 
 import './sidebar.scss';
 
-const SidebarItem = ({ title, icon }: SidebarItemProps) => {
+const SidebarItem = ({ title,todoAmount, icon }: SidebarItemProps) => {
   return (
     <div className={`todo-list-menu-item pl-3 h-[3.5rem] flex items-center`} role="listbox">
       <div className="todo-list-menu-item-content flex items-center w-full">
         <div className="min-w-[2rem] min-h-[2rem] bg-icon-blue1 rounded-full">
           <ListIcon />
         </div>
-        <div className="content-wrap w-full ml-4">
+        <div className="content-wrap w-full ml-4 flex items-center justify-between">
           <div className="title-container">
             <div className="title">
               <div className="inline-editable">
@@ -25,7 +25,7 @@ const SidebarItem = ({ title, icon }: SidebarItemProps) => {
               </div>
             </div>
           </div>
-          <div className="count"></div>
+          <div className="count mr-5">{todoAmount}</div>
         </div>
       </div>
     </div>
@@ -35,6 +35,7 @@ const SidebarItem = ({ title, icon }: SidebarItemProps) => {
 type SidebarItemProps = {
   id: string;
   title: string;
+  todoAmount: number;
   icon?: string;
 };
 

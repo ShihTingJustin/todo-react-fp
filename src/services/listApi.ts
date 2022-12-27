@@ -9,6 +9,7 @@ export interface Response<T = any> {
 export interface GetListRes {
   id: string;
   title: string;
+  todoAmount: number;
 }
 
 // 這裡 createApi 會自動將 endpoints 的 name 去組成相對應的 query
