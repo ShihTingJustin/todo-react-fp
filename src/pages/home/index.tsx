@@ -19,6 +19,7 @@ function Home() {
 
   const { mode } = useAppSelector((state) => state.todo);
 
+  const [stateKeyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<SearchTodoResponse[]>([]);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ function Home() {
   const handleSearch = async (keyword: string) => {
     dispatch(setMode(keyword ? TodoListMode.SEARCH : TodoListMode.NORMAL));
     if (!keyword.trim()) return;
+    setKeyword(keyword);
 
     const result = await searchTodo({ keyword }).unwrap();
     setSearchResult(result.data);
@@ -51,6 +53,9 @@ function Home() {
             <TodoList />
           ) : (
             <div className="todo-list flex flex-col h-full">
+              <div className="text-title-4 text-primary-gray1 ml-6">
+                Results for "{stateKeyword}"
+              </div>
               {searchResult.map((item) => (
                 <div key={item.id}>
                   <SearchTodoList
