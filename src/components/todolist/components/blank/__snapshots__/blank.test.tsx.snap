@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Button component [Render] match snapshot 1`] = `
+<div
+  className="flex flex-col grow justify-center items-center"
+  data-testid="blank"
+>
+  <div>
+    blank page
+  </div>
+</div>
+`;

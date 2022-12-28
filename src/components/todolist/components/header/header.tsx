@@ -25,7 +25,7 @@ const TodoListHeader = ({
   const { mode } = useAppSelector((state) => state.todo);
 
   return (
-    <div className="flex justify-between items-center pl-6 pr-5 h-[3.125rem]">
+    <div data-testid="todoListHeader" className="flex justify-between items-center pl-6 pr-5 h-[3.125rem]">
       <div className="text-title-2 text-primary-blue h-[2.625rem]">{title}</div>
       <div className="right-wrap">
         {mode === TodoListMode.NORMAL && (

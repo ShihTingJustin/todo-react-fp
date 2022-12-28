@@ -62,7 +62,7 @@ const TodoList = () => {
   };
 
   return (
-    <div className="todo-list flex flex-col h-full">
+    <div data-testid="normalTodoList" className="todo-list flex flex-col h-full">
       <TodoListHeader
         title={todoList?.data?.data.listTitle || ''}
         plusButtonDisabled={showNewTodo}
