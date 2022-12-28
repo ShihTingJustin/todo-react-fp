@@ -54,7 +54,7 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    if (data?.data[0]?.id && mode === TodoListMode.NORMAL) {
+    if (!selectedListId && data?.data[0]?.id && mode === TodoListMode.NORMAL) {
       dispatch(setSelectedListId(data?.data[0]?.id));
     }
   }, [data]);
