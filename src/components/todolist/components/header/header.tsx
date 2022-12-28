@@ -25,7 +25,10 @@ const TodoListHeader = ({
   const { mode } = useAppSelector((state) => state.todo);
 
   return (
-    <div data-testid="todoListHeader" className="flex justify-between items-center pl-6 pr-5 h-[3.125rem]">
+    <div
+      data-testid="todoListHeader"
+      className="flex justify-between items-center pl-6 pr-5 h-[3.125rem]"
+    >
       <div className="text-title-2 text-primary-blue h-[2.625rem]">{title}</div>
       <div className="right-wrap">
         {mode === TodoListMode.NORMAL && (
@@ -40,14 +43,14 @@ const TodoListHeader = ({
               icon={<PlusIcon fill="#0071EB" />}
               onClick={onPlusClick}
             />
-            <Button
+            {/* <Button
               size="small"
               shape="circle"
               type="text"
               data-disabled={false}
               icon={<MoreIcon fill="#0071EB" />}
               onClick={onMoreClick}
-            />
+            /> */}
           </>
         )}
       </div>

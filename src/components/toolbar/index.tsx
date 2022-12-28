@@ -10,7 +10,7 @@ const Toolbar = () => {
         <div className="text-title-1 text-primary-blue">TodoLists</div>
       </div>
       <div>
-        <div>image</div>
+        {/* <div>image</div> */}
       </div>
     </div>
   );
