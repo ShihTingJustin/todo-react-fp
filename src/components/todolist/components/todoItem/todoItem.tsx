@@ -52,7 +52,7 @@ const TodoItem = ({
   };
 
   return (
-    <div tabIndex={0} className={`"rowgroup" ${className}`}>
+    <div data-testid="todoItem" tabIndex={0} className={`"rowgroup" ${className}`}>
       <div className="content flex items-center py-3 pr-5 pl-6 w-full">
         <div className="mr-3">
           <Input
