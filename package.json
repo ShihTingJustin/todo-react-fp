@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
+    "@craco/craco": "^7.0.0",
     "@reduxjs/toolkit": "^1.9.1",
     "i18next": "^21.10.0",
     "i18next-browser-languagedetector": "^6.1.6",
@@ -13,10 +14,11 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.1"
   },
+  "cracoConfig": "craco.config.js",
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "eslint:fix": "eslint --fix",
@@ -60,7 +62,6 @@
     "jest-environment-jsdom": "^29.3.1",
     "postcss": "^8.4.17",
     "prettier": "^2.7.1",
-    "react-app-rewired": "^2.2.1",
     "react-scripts": "5.0.1",
     "react-test-renderer": "^18.2.0",
     "sass": "^1.55.0",
