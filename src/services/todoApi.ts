@@ -27,6 +27,22 @@ export const todoApi = createApi({
   // refetchOnReconnect: true,
   // refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
+    getAll: builder.query<
+      Response<{
+        user: { id: string; name: string };
+        list: Array<{ id: string; title: string; todoAmount: number }>;
+        todo: {
+          [key: string]: {
+            listTitle: string;
+            todo: Array<ITodo>;
+          };
+        };
+      }>,
+      void
+    >({
+      query: () => 'todo',
+      providesTags: [{ type: 'Todo', id: 'Todo' }],
+    }),
     getAllTodoByListId: builder.query<
       Response<{
         listTitle: string;
