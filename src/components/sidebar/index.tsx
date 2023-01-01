@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
 import { Divider } from 'antd';
-import { listApi } from '@Services/listApi';
 import { setSelectedListId } from '@Slices/listSlice';
 import { setMode } from '@Slices/todoSlice';
 import ListIcon from '@Assets/list';
@@ -40,44 +39,50 @@ type SidebarItemProps = {
   icon?: string;
 };
 
-const Sidebar = () => {
+type SidebarProps = {
+  isError?: boolean;
+  isLoading?: boolean;
+  data?: SidebarItemProps[];
+};
+
+const Sidebar = ({ isError, isLoading, data }: SidebarProps) => {
   const dispatch = useAppDispatch();
   const { selectedListId } = useAppSelector((state) => state.list);
   const { mode } = useAppSelector((state) => state.todo);
 
-  const [getAllList, { data, isLoading, isError }] = listApi.useLazyGetAllQuery();
-
   useEffect(() => {
-    if (mode === TodoListMode.NORMAL) {
-      getAllList();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!selectedListId && data?.data[0]?.id && mode === TodoListMode.NORMAL) {
-      dispatch(setSelectedListId(data?.data[0]?.id));
+    if (!selectedListId && data?.[0]?.id && mode === TodoListMode.NORMAL) {
+      dispatch(setSelectedListId(data?.[0]?.id));
     }
   }, [data]);
 
   return (
     <div className="scrollable-area px-3 pt-3">
       <div className="todo-list-menu rounded-[12px] overflow-hidden bg-bg-white1" role="menu">
-        {data?.data?.map((item, index) => (
-          <div key={item.id}>
-            <div
-              onClick={() => {
-                if (mode === TodoListMode.SEARCH) {
-                  dispatch(setMode(TodoListMode.NORMAL));
-                }
-                dispatch(setSelectedListId(item.id));
-              }}
-              data-selected={mode === TodoListMode.NORMAL ? selectedListId === item.id : false}
-            >
-              <SidebarItem {...item} />
+        {isError ? (
+          <>Oh no, there was an error</>
+        ) : isLoading ? (
+          <>Loading...</>
+        ) : data?.length ? (
+          data?.map((item, index) => (
+            <div key={item.id}>
+              <div
+                onClick={() => {
+                  if (mode === TodoListMode.SEARCH) {
+                    dispatch(setMode(TodoListMode.NORMAL));
+                  }
+                  dispatch(setSelectedListId(item.id));
+                }}
+                data-selected={mode === TodoListMode.NORMAL ? selectedListId === item.id : false}
+              >
+                <SidebarItem {...item} />
+              </div>
+              {data?.length !== index + 1 && <Divider className="m-0 ml-6" />}
             </div>
-            {data?.data?.length !== index + 1 && <Divider className="m-0 ml-6" />}
-          </div>
-        ))}
+          ))
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

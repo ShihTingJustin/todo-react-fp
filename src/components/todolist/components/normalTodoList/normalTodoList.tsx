@@ -13,15 +13,21 @@ import {
   TodoListMode,
 } from '@Interfaces/I_todo';
 
-const TodoList = () => {
+type TodoListProps = {
+  isError?: boolean;
+  isLoading?: boolean;
+  data?: { listTitle: string; todo: ITodo[] };
+};
+
+const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
   const { selectedListId } = useAppSelector((state) => state.list);
   const { mode } = useAppSelector((state) => state.todo);
 
   const [showNewTodo, setShowNewTodo] = useState(false);
   const [hiddenTodo, setHiddenTodo] = useState<Set<string>>(new Set());
 
-  const [getAllTodoByListId, todoList] = todoApi.useLazyGetAllTodoByListIdQuery();
-  const [createTodo, { isLoading: isCreateTodoLoading, isError }] = todoApi.useCreateTodoMutation();
+  const [createTodo, { isLoading: isCreateTodoLoading, isError: isCreateTodoError }] =
+    todoApi.useCreateTodoMutation();
   const [updateTodo, { isLoading: isUpdateTodoLoading, isError: isUpdateTodoError }] =
     todoApi.useUpdateTodoMutation();
   const [deleteTodo, { isLoading: isDeleteTodoLoading, isError: isDeleteTodoError }] =
@@ -30,7 +36,7 @@ const TodoList = () => {
 
   useEffect(() => {
     if (mode === TodoListMode.NORMAL && selectedListId) {
-      getAllTodoByListId(selectedListId);
+      // getAllTodoByListId(selectedListId);
     }
   }, [mode, selectedListId]);
 
@@ -40,7 +46,8 @@ const TodoList = () => {
       setShowNewTodo(false);
       const res = await createTodo(todo).unwrap();
       getAllList();
-      getAllTodoByListId(res?.data.listId);
+      // TODO: get todo by list
+      // getAllTodoByListId(res?.data.listId);
     } catch (error) {}
   };
 
@@ -53,7 +60,8 @@ const TodoList = () => {
       setHiddenTodo((prev) => prev.add(todoId));
       deleteTodo(todoId);
       getAllList();
-      getAllTodoByListId(selectedListId);
+      // TODO: get todo by list
+      // getAllTodoByListId(selectedListId);
     } catch (error) {}
   };
 
@@ -64,17 +72,17 @@ const TodoList = () => {
   return (
     <div data-testid="normalTodoList" className="todo-list flex flex-col h-full">
       <TodoListHeader
-        title={todoList?.data?.data.listTitle || ''}
+        title={data?.listTitle || ''}
         plusButtonDisabled={showNewTodo}
         onPlusClick={() => setShowNewTodo(true)}
       />
       <div className="flex flex-col grow">
-        {todoList?.isError ? (
+        {isError ? (
           <>Oh no, there was an error</>
-        ) : todoList?.isLoading ? (
+        ) : isLoading ? (
           <>Loading...</>
-        ) : todoList?.data?.data?.todo?.length ? (
-          todoList?.data?.data?.todo?.map((todo, index) => (
+        ) : data?.todo?.length ? (
+          data?.todo?.map((todo, index) => (
             <TodoItem
               key={index}
               todo={todo}
@@ -112,9 +120,7 @@ const TodoList = () => {
             }}
           />
         ) : (
-          todoList?.data?.data?.todo?.length && (
-            <Blank text="" onClick={() => setShowNewTodo(true)} />
-          )
+          data?.todo?.length && <Blank text="" onClick={() => setShowNewTodo(true)} />
         )}
       </div>
     </div>

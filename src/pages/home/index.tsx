@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { listApi } from '@Services/listApi';
 import { todoApi } from '@Services/todoApi';
 import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
 import { setMode } from '@Slices/todoSlice';
-import { setSelectedListId } from '@Slices/listSlice';
 import Toolbar from '@Components/toolbar';
 import Sidebar from '@Components/sidebar';
 import TodoList from '@Components/todolist';
@@ -18,12 +16,16 @@ function Home() {
   const dispatch = useAppDispatch();
 
   const { mode } = useAppSelector((state) => state.todo);
+  const { selectedListId } = useAppSelector((state) => state.list);
 
   const [stateKeyword, setKeyword] = useState('');
   const [searchResult, setSearchResult] = useState<SearchTodoResponse[]>([]);
 
+  const [getListAndTodo, { data, isError, isLoading }] = todoApi.useLazyGetAllQuery();
+
   useEffect(() => {
     dispatch(setMode(TodoListMode.NORMAL));
+    getListAndTodo();
   }, []);
 
   const [searchTodo, { isLoading: isSearchTodoLoading, isError: isSearchTodoError }] =
@@ -46,11 +48,15 @@ function Home() {
           <div className="px-3 pt-3">
             <SearchField onChange={handleSearch} />
           </div>
-          <Sidebar />
+          <Sidebar isError={isError} isLoading={isLoading} data={data?.data?.list} />
         </div>
         <div className="grow">
           {mode === TodoListMode.NORMAL ? (
-            <TodoList />
+            <TodoList
+              isError={isError}
+              isLoading={isLoading}
+              data={data?.data.todo[selectedListId]}
+            />
           ) : (
             <div className="todo-list flex flex-col h-full">
               <div className="text-title-4 text-primary-gray1 ml-6">
