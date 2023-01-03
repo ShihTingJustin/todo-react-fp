@@ -66,7 +66,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
   };
 
   const handleToggle = (todoInfo: ITodo) => {
-    updateTodo({ todoId: todoInfo.id, status: todoInfo.status });
+    updateTodo({ id: todoInfo.id, status: todoInfo.status });
   };
 
   return (
@@ -91,8 +91,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
               onDelete={handleDelete}
               onBlur={(todoInfo) => {
                 if (todoInfo.title.trim()) {
-                  const { id, ...rest } = todoInfo;
-                  handleUpdate({ todoId: id, ...rest });
+                  handleUpdate(todoInfo);
                 } else {
                   handleDelete(todoInfo.id);
                 }
