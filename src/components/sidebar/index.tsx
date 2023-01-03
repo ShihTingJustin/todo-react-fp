@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
 import { Divider } from 'antd';
+import { listApi } from '@Services/listApi';
 import { setSelectedListId } from '@Slices/listSlice';
 import { setMode } from '@Slices/todoSlice';
 import ListIcon from '@Assets/list';
@@ -8,7 +10,17 @@ import { TodoListMode } from '@Interfaces/I_todo';
 
 import './sidebar.scss';
 
-const SidebarItem = ({ title, todoAmount, icon }: SidebarItemProps) => {
+const SidebarItem = ({ id, title, todoAmount, icon }: SidebarItemProps) => {
+  const [count, setCount] = useState(todoAmount);
+
+  const selectDataFromList = listApi.endpoints.getListById.select(id);
+  const res = useSelector(selectDataFromList);
+  const total = res?.data?.data?.todos.length;
+
+  useEffect(() => {
+    if (total && todoAmount !== total) setCount(total);
+  }, [total]);
+
   return (
     <div className={`todo-list-menu-item pl-3 h-[3.5rem] flex items-center`} role="listbox">
       <div className="todo-list-menu-item-content flex items-center w-full">
@@ -25,7 +37,7 @@ const SidebarItem = ({ title, todoAmount, icon }: SidebarItemProps) => {
               </div>
             </div>
           </div>
-          <div className="count mr-5">{todoAmount}</div>
+          <div className="count mr-5">{count}</div>
         </div>
       </div>
     </div>

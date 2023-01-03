@@ -3,20 +3,23 @@ import { todoApi } from '@Services/todoApi';
 import { listApi } from '@Services/listApi';
 import TodoListHeader from '@Components/todolist/components/header/header';
 import TodoItem from '@Components/todolist/components/todoItem/todoItem';
-import { UpdateTodoReqBody, TodoStatus, ITodo, SearchTodoResponse } from '@Interfaces/I_todo';
+import { UpdateTodoReqBody, ITodo, SearchTodoResponse } from '@Interfaces/I_todo';
+import { useAppSelector } from '@Hooks/useAppRedux';
 
 const SearchTodoList = ({
   result,
 }: {
   result: SearchTodoResponse & { isError: boolean; isLoading: boolean };
 }) => {
+  const { selectedListId } = useAppSelector((state) => state.list);
+
   const [hiddenTodo, setHiddenTodo] = useState<Set<string>>(new Set());
 
   const [updateTodo, { isLoading: isUpdateTodoLoading, isError: isUpdateTodoError }] =
     todoApi.useUpdateTodoMutation();
   const [deleteTodo, { isLoading: isDeleteTodoLoading, isError: isDeleteTodoError }] =
     todoApi.useDeleteTodoMutation();
-  const [getAllList] = listApi.useLazyGetAllQuery();
+  const [getListById] = listApi.useLazyGetListByIdQuery();
 
   const handleUpdate = async (todo: UpdateTodoReqBody) => {
     updateTodo(todo);
@@ -25,8 +28,8 @@ const SearchTodoList = ({
   const handleDelete = async (todoId: ITodo['id']) => {
     try {
       setHiddenTodo((prev) => prev.add(todoId));
-      deleteTodo(todoId);
-      getAllList();
+      await deleteTodo(todoId);
+      getListById(selectedListId);
     } catch (error) {}
   };
 

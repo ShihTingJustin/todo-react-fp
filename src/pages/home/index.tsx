@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-
+import { useSelector } from 'react-redux';
+import { listApi } from '@Services/listApi';
 import { todoApi } from '@Services/todoApi';
 import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
 import { setMode } from '@Slices/todoSlice';
@@ -8,7 +9,7 @@ import Sidebar from '@Components/sidebar';
 import TodoList from '@Components/todolist';
 import { SearchTodoList } from '@Components/todolist';
 import SearchField from '@Components/sidebar/components/searchField';
-import { TodoListMode, SearchTodoResponse } from '@Interfaces/I_todo';
+import ITodo, { TodoListMode, SearchTodoResponse } from '@Interfaces/I_todo';
 import './home.scss';
 import { Divider } from 'antd';
 
@@ -23,10 +24,30 @@ function Home() {
 
   const [getListAndTodo, { data, isError, isLoading }] = todoApi.useLazyGetAllQuery();
 
+  const [todoListData, setTodoListData] = useState(data?.data.todo[selectedListId]);
+
   useEffect(() => {
     dispatch(setMode(TodoListMode.NORMAL));
     getListAndTodo();
   }, []);
+
+  useEffect(() => {
+    if (selectedListId) setTodoListData(data?.data.todo[selectedListId]);
+  }, [selectedListId, data]);
+
+  const selectDataFromList = listApi.endpoints.getListById.select(selectedListId);
+  const res = useSelector(selectDataFromList);
+  const updateData = res?.data?.data;
+
+  useEffect(() => {
+    setTodoListData({
+      listTitle: updateData?.title,
+      todo: updateData?.todos,
+    } as unknown as {
+      listTitle: string;
+      todo: ITodo[];
+    });
+  }, [updateData]);
 
   const [searchTodo, { isLoading: isSearchTodoLoading, isError: isSearchTodoError }] =
     todoApi.useSearchMutation();
@@ -52,11 +73,7 @@ function Home() {
         </div>
         <div className="grow">
           {mode === TodoListMode.NORMAL ? (
-            <TodoList
-              isError={isError}
-              isLoading={isLoading}
-              data={data?.data.todo[selectedListId]}
-            />
+            <TodoList isError={isError} isLoading={isLoading} data={todoListData} />
           ) : (
             <div className="todo-list flex flex-col h-full">
               <div className="text-title-4 text-primary-gray1 ml-6">

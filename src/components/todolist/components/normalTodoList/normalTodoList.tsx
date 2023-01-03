@@ -23,6 +23,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
   const { selectedListId } = useAppSelector((state) => state.list);
   const { mode } = useAppSelector((state) => state.todo);
 
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const [showNewTodo, setShowNewTodo] = useState(false);
   const [hiddenTodo, setHiddenTodo] = useState<Set<string>>(new Set());
 
@@ -32,22 +33,24 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
     todoApi.useUpdateTodoMutation();
   const [deleteTodo, { isLoading: isDeleteTodoLoading, isError: isDeleteTodoError }] =
     todoApi.useDeleteTodoMutation();
-  const [getAllList] = listApi.useLazyGetAllQuery();
+  const [getListById] = listApi.useLazyGetListByIdQuery();
 
   useEffect(() => {
     if (mode === TodoListMode.NORMAL && selectedListId) {
-      // getAllTodoByListId(selectedListId);
+      getListById(selectedListId);
     }
   }, [mode, selectedListId]);
+
+  useEffect(() => {
+    setTodos(data?.todo || []);
+  }, [data]);
 
   const handleCreate = async (todo: CreateTodoReqBody) => {
     try {
       if (!todo.title.trim()) return;
       setShowNewTodo(false);
-      const res = await createTodo(todo).unwrap();
-      getAllList();
-      // TODO: get todo by list
-      // getAllTodoByListId(res?.data.listId);
+      await createTodo(todo);
+      getListById(selectedListId);
     } catch (error) {}
   };
 
@@ -58,10 +61,8 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
   const handleDelete = async (todoId: ITodo['id']) => {
     try {
       setHiddenTodo((prev) => prev.add(todoId));
-      deleteTodo(todoId);
-      getAllList();
-      // TODO: get todo by list
-      // getAllTodoByListId(selectedListId);
+      await deleteTodo(todoId);
+      getListById(selectedListId);
     } catch (error) {}
   };
 
@@ -81,8 +82,8 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
           <>Oh no, there was an error</>
         ) : isLoading ? (
           <>Loading...</>
-        ) : data?.todo?.length ? (
-          data?.todo?.map((todo, index) => (
+        ) : todos?.length ? (
+          todos?.map((todo, index) => (
             <TodoItem
               key={index}
               todo={todo}
