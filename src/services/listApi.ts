@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ITodo } from '@Interfaces/I_todo';
 
 export interface Response<T = any> {
   data: T;
@@ -9,7 +10,7 @@ export interface Response<T = any> {
 export interface GetListRes {
   id: string;
   title: string;
-  todoAmount: number;
+  todos: Array<ITodo>;
 }
 
 // 這裡 createApi 會自動將 endpoints 的 name 去組成相對應的 query
@@ -26,10 +27,9 @@ export const listApi = createApi({
   }),
   tagTypes: ['List'],
   endpoints: (builder) => ({
-    getAll: builder.query<Response<GetListRes[]>, void>({
+    getListById: builder.query<Response<GetListRes>, string>({
       // 這裡的 query 代表接續 base 要傳入的值，providesTags 就是記錄一下對應的 tagType 詳細 https://redux-toolkit.js.org/rtk-query/usage/automated-refetchin
-      query: () => `list`,
-      providesTags: [{ type: 'List', id: 'LIST' }],
+      query: (listId) => `list/${listId}`,
     }),
   }),
 });
