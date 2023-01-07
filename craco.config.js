@@ -4,6 +4,9 @@ const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.json');
 
 module.exports = {
+  devServer: {
+    host: '127.0.0.1',
+  },
   webpack: {
     alias: {
       '@Assets': path.resolve(__dirname, 'src/assets'),
