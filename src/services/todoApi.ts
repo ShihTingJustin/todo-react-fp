@@ -56,13 +56,9 @@ export const todoApi = createApi({
       },
       providesTags: (result, error, id) => [{ type: 'Todo', id }],
     }),
-    search: builder.mutation<Response<SearchTodoResponse[]>, { keyword: string }>({
-      query: (filter) => ({
-        url: 'todo/search',
-        method: 'POST',
-        body: filter,
-      }),
-      invalidatesTags: [{ type: 'Todo', id: 'LIST' }],
+    search: builder.query<Response<SearchTodoResponse[]>, string>({
+      query: (keyword) => `todo/search/${keyword}`,
+      providesTags: [{ type: 'Todo', id: 'LIST' }],
     }),
     createTodo: builder.mutation<Response<ITodo>, CreateTodoReqBody>({
       query: (todo) => ({

@@ -50,14 +50,14 @@ function Home() {
   }, [updateData]);
 
   const [searchTodo, { isLoading: isSearchTodoLoading, isError: isSearchTodoError }] =
-    todoApi.useSearchMutation();
+    todoApi.useLazySearchQuery();
 
   const handleSearch = async (keyword: string) => {
     dispatch(setMode(keyword ? TodoListMode.SEARCH : TodoListMode.NORMAL));
     if (!keyword.trim()) return;
     setKeyword(keyword);
 
-    const result = await searchTodo({ keyword }).unwrap();
+    const result = await searchTodo(keyword).unwrap();
     setSearchResult(result.data);
   };
 
