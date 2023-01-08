@@ -14,10 +14,6 @@ exports[`Test Button component [Render] match snapshot 1`] = `
       TodoLists
     </div>
   </div>
-  <div>
-    <div>
-      image
-    </div>
-  </div>
+  <div />
 </div>
 `;
