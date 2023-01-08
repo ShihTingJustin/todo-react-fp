@@ -83,7 +83,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
           <div className="flex justify-start w-[80%] ml-4 mt-4">
             <Skeleton active />
           </div>
-        ) : todos?.length ? (
+        ) : !!todos?.length ? (
           todos?.map((todo, index) => (
             <TodoItem
               key={index}
@@ -101,7 +101,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
             />
           ))
         ) : (
-          !showNewTodo && <Blank text="No Todos" onClick={() => setShowNewTodo(true)} />
+          !showNewTodo && <Blank text="" onClick={() => setShowNewTodo(true)} />
         )}
         {showNewTodo ? (
           <TodoItem
@@ -122,7 +122,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
             }}
           />
         ) : (
-          data?.todo?.length && <Blank text="" onClick={() => setShowNewTodo(true)} />
+          !!todos?.length && <Blank text="" onClick={() => setShowNewTodo(true)} />
         )}
       </div>
     </div>
