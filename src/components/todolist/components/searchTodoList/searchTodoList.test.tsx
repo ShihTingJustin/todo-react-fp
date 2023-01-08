@@ -1,6 +1,5 @@
 import renderer from 'react-test-renderer';
 import { AllTheProviders, render, screen } from '@Utils/testing';
-import { TodoStatus } from '@Interfaces/I_todo';
 import SearchTodoList from './searchTodoList';
 
 describe('Test Button component', () => {
@@ -14,7 +13,7 @@ describe('Test Button component', () => {
         {
           id: '63a9b83550511904a6e0fe81',
           listId: '63a99ee9e6e183933c167649',
-          status: TodoStatus.UNFINISH,
+          completed: false,
           title: 'qwe',
         },
       ],

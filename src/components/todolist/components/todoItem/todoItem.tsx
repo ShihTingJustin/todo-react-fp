@@ -6,7 +6,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import Unfinished from '@Assets/unfinished';
 import Finished from '@Assets/finished';
 
-import { ITodo, TodoStatus } from '@Interfaces/I_todo';
+import { ITodo } from '@Interfaces/I_todo';
 
 import './todoItem.scss';
 
@@ -43,9 +43,7 @@ const TodoItem = ({
 
   const handleClick = () => {
     setTodoInfo((prev) => {
-      const updateStatus =
-        prev.status === TodoStatus.FINISH ? TodoStatus.UNFINISH : TodoStatus.FINISH;
-      const updateTodoInfo = { ...prev, status: updateStatus };
+      const updateTodoInfo = { ...prev, completed: !prev.completed };
       onToggle?.(updateTodoInfo);
       return updateTodoInfo;
     });
@@ -59,15 +57,11 @@ const TodoItem = ({
             id={todoInfo.id}
             className="toggle hidden"
             type="checkbox"
-            checked={todoInfo.status === TodoStatus.FINISH}
+            checked={todoInfo.completed}
           />
           <label htmlFor={todoInfo.id} onClick={handleClick}>
             <div className="w-[1.375rem] h-[1.375rem]">
-              {todoInfo.status === TodoStatus.FINISH ? (
-                <Finished fill="#0071EB" />
-              ) : (
-                <Unfinished fill="#c4c4c6" />
-              )}
+              {todoInfo.completed ? <Finished fill="#0071EB" /> : <Unfinished fill="#c4c4c6" />}
             </div>
           </label>
         </div>

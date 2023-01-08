@@ -1,6 +1,5 @@
 import renderer from 'react-test-renderer';
 import { render, screen } from '@testing-library/react';
-import { TodoStatus } from '@Interfaces/I_todo';
 import TodoItem from './todoItem';
 
 describe('Test Button component', () => {
@@ -9,7 +8,7 @@ describe('Test Button component', () => {
       id: '63a86c39dbd466d9f6fae7a2',
       title: 'test',
       listId: '63a84fe8ab46917a7747ff8e',
-      status: TodoStatus.UNFINISH,
+      completed: false,
     },
     onToggle: () => {},
     onDelete: () => {},

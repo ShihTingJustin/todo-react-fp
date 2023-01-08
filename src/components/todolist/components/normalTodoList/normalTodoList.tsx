@@ -5,13 +5,7 @@ import TodoListHeader from '@Components/todolist/components/header/header';
 import TodoItem from '@Components/todolist/components/todoItem/todoItem';
 import Blank from '@Components/todolist/components/blank/blank';
 import { useAppSelector } from '@Hooks/useAppRedux';
-import {
-  CreateTodoReqBody,
-  UpdateTodoReqBody,
-  TodoStatus,
-  ITodo,
-  TodoListMode,
-} from '@Interfaces/I_todo';
+import { CreateTodoReqBody, UpdateTodoReqBody, ITodo, TodoListMode } from '@Interfaces/I_todo';
 
 type TodoListProps = {
   isError?: boolean;
@@ -67,7 +61,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
   };
 
   const handleToggle = (todoInfo: ITodo) => {
-    updateTodo({ id: todoInfo.id, status: todoInfo.status });
+    updateTodo({ id: todoInfo.id, completed: todoInfo.completed });
   };
 
   return (
@@ -107,7 +101,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
             todo={{
               id: '123',
               title: '',
-              status: TodoStatus.UNFINISH,
+              completed: false,
               listId: selectedListId,
             }}
             showNewTodo={showNewTodo}

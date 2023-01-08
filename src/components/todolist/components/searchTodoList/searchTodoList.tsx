@@ -34,7 +34,7 @@ const SearchTodoList = ({
   };
 
   const handleToggle = (todoInfo: ITodo) => {
-    updateTodo({ id: todoInfo.id, status: todoInfo.status });
+    updateTodo({ id: todoInfo.id, completed: todoInfo.completed });
   };
 
   return (

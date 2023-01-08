@@ -12,16 +12,11 @@ export enum TodoPriority {
   HIGH = 'high',
 }
 
-export enum TodoStatus {
-  FINISH = 'finished',
-  UNFINISH = 'unfinished',
-}
-
 export type ITodo = {
   id: string;
   listId: string;
   title: string;
-  status: TodoStatus;
+  completed: boolean;
   priority?: TodoPriority;
 };
 
