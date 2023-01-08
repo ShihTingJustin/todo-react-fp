@@ -116,6 +116,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
               if (todoInfo.title.trim()) {
                 const { id, ...rest } = todoInfo;
                 handleCreate(rest);
+                setTodos((prev) => [...prev, todoInfo]);
               }
               setShowNewTodo(false);
             }}
