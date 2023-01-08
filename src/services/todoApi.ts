@@ -23,9 +23,6 @@ export const todoApi = createApi({
     timeout: 30000,
   }),
   tagTypes: ['Todo'],
-  // refetchOnFocus: true,
-  // refetchOnReconnect: true,
-  // refetchOnMountOrArgChange: true,
   endpoints: (builder) => ({
     getAll: builder.query<
       Response<{

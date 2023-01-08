@@ -6,15 +6,12 @@ export interface Response<T = any> {
   status: string;
 }
 
-// 做一份與 server 相同的 Todo 格式提供 component 使用
 export interface GetListRes {
   id: string;
   title: string;
   todos: Array<ITodo>;
 }
 
-// 這裡 createApi 會自動將 endpoints 的 name 去組成相對應的 query
-// 以 getAll 為例，使用時會組成 useGetAllQuery 的 function
 export const listApi = createApi({
   reducerPath: 'listApi',
   baseQuery: fetchBaseQuery({
@@ -34,14 +31,3 @@ export const listApi = createApi({
     }),
   }),
 });
-
-// const getListApi = async () => {
-//   try {
-//     const res = await customAxios.get('/list');
-//     return res.data;
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
-// export { getListApi };

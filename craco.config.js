@@ -1,4 +1,3 @@
-// craco.config.js (in root)
 const path = require('path');
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.json');
