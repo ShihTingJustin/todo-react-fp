@@ -18,7 +18,9 @@ const SidebarItem = ({ id, title, todoAmount, icon }: SidebarItemProps) => {
   const total = res?.data?.data?.todos.length;
 
   useEffect(() => {
-    if (total && todoAmount !== total) setCount(total);
+    if (typeof total === 'number') {
+      setCount(total);
+    }
   }, [total]);
 
   return (
