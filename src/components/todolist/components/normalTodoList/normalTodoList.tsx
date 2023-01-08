@@ -16,7 +16,7 @@ import {
 type TodoListProps = {
   isError?: boolean;
   isLoading?: boolean;
-  data?: { listTitle: string; todo: ITodo[] };
+  data?: { title: string; todo: ITodo[] };
 };
 
 const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
@@ -73,7 +73,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
   return (
     <div data-testid="normalTodoList" className="todo-list flex flex-col h-full">
       <TodoListHeader
-        title={data?.listTitle || ''}
+        title={data?.title || ''}
         plusButtonDisabled={showNewTodo}
         onPlusClick={() => setShowNewTodo(true)}
       />

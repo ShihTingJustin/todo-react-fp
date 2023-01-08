@@ -33,7 +33,7 @@ export const todoApi = createApi({
         list: Array<{ id: string; title: string; todoAmount: number }>;
         todo: {
           [key: string]: {
-            listTitle: string;
+            title: string;
             todo: Array<ITodo>;
           };
         };
@@ -45,7 +45,7 @@ export const todoApi = createApi({
     }),
     getAllTodoByListId: builder.query<
       Response<{
-        listTitle: string;
+        title: string;
         todo: ITodo[];
       }>,
       string

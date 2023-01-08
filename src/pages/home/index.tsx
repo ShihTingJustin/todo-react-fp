@@ -41,10 +41,10 @@ function Home() {
 
   useEffect(() => {
     setTodoListData({
-      listTitle: updateData?.title,
+      title: updateData?.title,
       todo: updateData?.todos,
     } as unknown as {
-      listTitle: string;
+      title: string;
       todo: ITodo[];
     });
   }, [updateData]);
