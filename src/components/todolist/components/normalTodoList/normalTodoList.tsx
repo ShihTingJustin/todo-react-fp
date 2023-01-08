@@ -6,6 +6,7 @@ import TodoItem from '@Components/todolist/components/todoItem/todoItem';
 import Blank from '@Components/todolist/components/blank/blank';
 import { useAppSelector } from '@Hooks/useAppRedux';
 import { CreateTodoReqBody, UpdateTodoReqBody, ITodo, TodoListMode } from '@Interfaces/I_todo';
+import { Skeleton } from 'antd';
 
 type TodoListProps = {
   isError?: boolean;
@@ -33,7 +34,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
     if (mode === TodoListMode.NORMAL && selectedListId) {
       getListById(selectedListId);
     }
-  }, [mode, selectedListId]);
+  }, [mode]);
 
   useEffect(() => {
     setTodos(data?.todo || []);
@@ -66,16 +67,22 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
 
   return (
     <div data-testid="normalTodoList" className="todo-list flex flex-col h-full">
-      <TodoListHeader
-        title={data?.title || ''}
-        plusButtonDisabled={showNewTodo}
-        onPlusClick={() => setShowNewTodo(true)}
-      />
+      {isLoading ? (
+        <></>
+      ) : (
+        <TodoListHeader
+          title={data?.title || ''}
+          plusButtonDisabled={showNewTodo}
+          onPlusClick={() => setShowNewTodo(true)}
+        />
+      )}
       <div className="flex flex-col grow">
         {isError ? (
           <>Oh no, there was an error</>
         ) : isLoading ? (
-          <>Loading...</>
+          <div className="flex justify-start w-[80%] ml-4 mt-4">
+            <Skeleton active />
+          </div>
         ) : todos?.length ? (
           todos?.map((todo, index) => (
             <TodoItem

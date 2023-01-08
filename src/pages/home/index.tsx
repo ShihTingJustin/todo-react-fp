@@ -7,11 +7,10 @@ import { setMode } from '@Slices/todoSlice';
 import Toolbar from '@Components/toolbar';
 import Sidebar from '@Components/sidebar';
 import TodoList from '@Components/todolist';
-import { SearchTodoList } from '@Components/todolist';
+import SearchResult from '@Components/todolist/components/searchResult/searchResult';
 import SearchField from '@Components/sidebar/components/searchField';
-import ITodo, { TodoListMode, SearchTodoResponse } from '@Interfaces/I_todo';
+import ITodo, { TodoListMode } from '@Interfaces/I_todo';
 import './home.scss';
-import { Divider } from 'antd';
 
 function Home() {
   const dispatch = useAppDispatch();
@@ -20,7 +19,6 @@ function Home() {
   const { selectedListId } = useAppSelector((state) => state.list);
 
   const [stateKeyword, setKeyword] = useState('');
-  const [searchResult, setSearchResult] = useState<SearchTodoResponse[]>([]);
 
   const [getListAndTodo, { data, isError, isLoading }] = todoApi.useLazyGetAllQuery();
 
@@ -43,22 +41,16 @@ function Home() {
     setTodoListData({
       title: updateData?.title,
       todo: updateData?.todos,
-    } as unknown as {
+    } as {
       title: string;
       todo: ITodo[];
     });
   }, [updateData]);
 
-  const [searchTodo, { isLoading: isSearchTodoLoading, isError: isSearchTodoError }] =
-    todoApi.useLazySearchQuery();
-
-  const handleSearch = async (keyword: string) => {
+  const handleKeywordChange = async (keyword: string) => {
     dispatch(setMode(keyword ? TodoListMode.SEARCH : TodoListMode.NORMAL));
     if (!keyword.trim()) return;
     setKeyword(keyword);
-
-    const result = await searchTodo(keyword).unwrap();
-    setSearchResult(result.data);
   };
 
   return (
@@ -67,7 +59,7 @@ function Home() {
       <div className="main-view flex grow">
         <div className="w-[335px] bg-bg-gray2">
           <div className="px-3 pt-3">
-            <SearchField onChange={handleSearch} />
+            <SearchField onChange={handleKeywordChange} />
           </div>
           <Sidebar isError={isError} isLoading={isLoading} data={data?.data?.list} />
         </div>
@@ -79,14 +71,7 @@ function Home() {
               <div className="text-title-4 text-primary-gray1 ml-6">
                 Results for "{stateKeyword}"
               </div>
-              {searchResult.map((item) => (
-                <div key={item.id}>
-                  <SearchTodoList
-                    result={{ ...item, isLoading: isSearchTodoLoading, isError: isSearchTodoError }}
-                  />
-                  <Divider className="my-2" />
-                </div>
-              ))}
+              <SearchResult keyword={stateKeyword} />
             </div>
           )}
         </div>

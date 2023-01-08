@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Button component [Render] match snapshot 1`] = `
+<div
+  data-testid="searchResult"
+/>
+`;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector } from '@Hooks/useAppRedux';
-import { Divider } from 'antd';
+import { Divider, Skeleton } from 'antd';
 import { listApi } from '@Services/listApi';
 import { setSelectedListId } from '@Slices/listSlice';
 import { setMode } from '@Slices/todoSlice';
@@ -62,6 +62,8 @@ const Sidebar = ({ isError, isLoading, data }: SidebarProps) => {
   const { selectedListId } = useAppSelector((state) => state.list);
   const { mode } = useAppSelector((state) => state.todo);
 
+  const [getListById] = listApi.useLazyGetListByIdQuery();
+
   useEffect(() => {
     if (!selectedListId && data?.[0]?.id && mode === TodoListMode.NORMAL) {
       dispatch(setSelectedListId(data?.[0]?.id));
@@ -74,7 +76,9 @@ const Sidebar = ({ isError, isLoading, data }: SidebarProps) => {
         {isError ? (
           <>Oh no, there was an error</>
         ) : isLoading ? (
-          <>Loading...</>
+          <div className="p-6">
+            <Skeleton active />
+          </div>
         ) : data?.length ? (
           data?.map((item, index) => (
             <div key={item.id}>
@@ -84,6 +88,7 @@ const Sidebar = ({ isError, isLoading, data }: SidebarProps) => {
                     dispatch(setMode(TodoListMode.NORMAL));
                   }
                   dispatch(setSelectedListId(item.id));
+                  getListById(item.id);
                 }}
                 data-selected={mode === TodoListMode.NORMAL ? selectedListId === item.id : false}
               >

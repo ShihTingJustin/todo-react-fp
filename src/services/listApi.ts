@@ -30,6 +30,7 @@ export const listApi = createApi({
     getListById: builder.query<Response<GetListRes>, string>({
       // 這裡的 query 代表接續 base 要傳入的值，providesTags 就是記錄一下對應的 tagType 詳細 https://redux-toolkit.js.org/rtk-query/usage/automated-refetchin
       query: (listId) => `list/${listId}`,
+      providesTags: ['List'],
     }),
   }),
 });
