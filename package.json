@@ -1,6 +1,6 @@
 {
   "name": "todo-react-fp",
-  "homepage": ".",
+  "homepage": "https://shihtingjustin.github.io/todo-react-fp",
   "version": "0.1.0",
   "private": false,
   "dependencies": {
@@ -18,9 +18,10 @@
   "scripts": {
     "dev": "craco start",
     "build": "DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false craco build",
+    "build:prod": "DISABLE_ESLINT_PLUGIN=true GENERATE_SOURCEMAP=false env-cmd -f .env.production craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "yarn build:prod",
     "eslint:fix": "eslint --fix",
     "deploy": "gh-pages -d build"
   },
@@ -58,6 +59,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-testing-library": "^5.9.1",
+    "gh-pages": "^5.0.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
     "postcss": "^8.4.17",
