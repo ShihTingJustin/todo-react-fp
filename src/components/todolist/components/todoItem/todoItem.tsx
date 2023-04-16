@@ -71,7 +71,7 @@ const TodoItem = ({
             <Input
               ref={editField}
               value={todoInfo.title}
-              className="edit w-full text-content-1"
+              className={`edit w-full text-content-1 ${todoInfo.completed && 'text-border-gray1'}`}
               bordered={false}
               onBlur={(e) => {
                 onBlur?.({ ...todoInfo, title: e.target.value });
