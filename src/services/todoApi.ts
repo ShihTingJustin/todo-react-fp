@@ -27,7 +27,11 @@ export const todoApi = createApi({
     getAll: builder.query<
       Response<{
         user: { id: string; name: string };
-        list: Array<{ id: string; title: string; todoAmount: number }>;
+        list: Array<{
+          id: string;
+          title: string;
+          incompleteTodoAmount: number;
+        }>;
         todo: {
           [key: string]: {
             title: string;

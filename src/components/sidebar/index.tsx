@@ -10,18 +10,26 @@ import { TodoListMode } from '@Interfaces/I_todo';
 
 import './sidebar.scss';
 
-const SidebarItem = ({ id, title, todoAmount, icon }: SidebarItemProps) => {
-  const [count, setCount] = useState(todoAmount);
+const SidebarItem = ({ id, title, icon, incompleteTodoAmount }: SidebarItemProps) => {
+  const { selectedListId } = useAppSelector((state) => state.list);
 
-  const selectDataFromList = listApi.endpoints.getListById.select(id);
-  const res = useSelector(selectDataFromList);
-  const total = res?.data?.data?.todo.length;
+  const [count, setCount] = useState(incompleteTodoAmount);
+
+  const selectDataFromList = listApi.endpoints.getListById.select(selectedListId);
+  const listApiRes = useSelector(selectDataFromList);
 
   useEffect(() => {
-    if (typeof total === 'number') {
-      setCount(total);
+    if (listApiRes) {
+      const incompleteTodoAmount = listApiRes?.data?.data?.incompleteTodoAmount || 0;
+      if (
+        listApiRes.isSuccess &&
+        id === listApiRes.data.data.id &&
+        count !== incompleteTodoAmount
+      ) {
+        setCount(incompleteTodoAmount);
+      }
     }
-  }, [total]);
+  }, [listApiRes, id, count]);
 
   return (
     <div className={`todo-list-menu-item pl-3 h-[3.5rem] flex items-center`} role="listbox">
@@ -49,8 +57,8 @@ const SidebarItem = ({ id, title, todoAmount, icon }: SidebarItemProps) => {
 type SidebarItemProps = {
   id: string;
   title: string;
-  todoAmount: number;
   icon?: string;
+  incompleteTodoAmount: number;
 };
 
 type SidebarProps = {
@@ -61,6 +69,7 @@ type SidebarProps = {
 
 const Sidebar = ({ isError, isLoading, data }: SidebarProps) => {
   const dispatch = useAppDispatch();
+
   const { selectedListId } = useAppSelector((state) => state.list);
   const { mode } = useAppSelector((state) => state.todo);
 
@@ -70,7 +79,7 @@ const Sidebar = ({ isError, isLoading, data }: SidebarProps) => {
     if (!selectedListId && data?.[0]?.id && mode === TodoListMode.NORMAL) {
       dispatch(setSelectedListId(data?.[0]?.id));
     }
-  }, [data]);
+  }, [selectedListId, data, mode, dispatch]);
 
   return (
     <div className="scrollable-area px-3 pt-3">

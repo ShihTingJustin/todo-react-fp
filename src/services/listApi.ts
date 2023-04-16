@@ -10,6 +10,7 @@ export interface GetListRes {
   id: string;
   title: string;
   todo: Array<ITodo>;
+  incompleteTodoAmount: number;
 }
 
 export const listApi = createApi({
