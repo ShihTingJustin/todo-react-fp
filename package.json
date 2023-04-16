@@ -3,6 +3,9 @@
   "homepage": "https://shihtingjustin.github.io/todo-react-fp",
   "version": "0.1.0",
   "private": false,
+  "engine": {
+    "node": "18.15.0"
+  },
   "dependencies": {
     "@craco/craco": "^7.0.0",
     "@reduxjs/toolkit": "^1.9.1",

@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.12.1]
+        node-version: [18.15.0]
 
     steps:
       - name: Checkout repository
@@ -24,7 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn add env-cmd && yarn install --frozen-lockfile
 
       - name: Deploy
         run: |
