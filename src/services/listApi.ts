@@ -9,7 +9,7 @@ export interface Response<T = any> {
 export interface GetListRes {
   id: string;
   title: string;
-  todos: Array<ITodo>;
+  todo: Array<ITodo>;
 }
 
 export const listApi = createApi({

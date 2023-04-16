@@ -15,7 +15,7 @@ const SidebarItem = ({ id, title, todoAmount, icon }: SidebarItemProps) => {
 
   const selectDataFromList = listApi.endpoints.getListById.select(id);
   const res = useSelector(selectDataFromList);
-  const total = res?.data?.data?.todos.length;
+  const total = res?.data?.data?.todo.length;
 
   useEffect(() => {
     if (typeof total === 'number') {
