@@ -22,30 +22,36 @@ function Home() {
 
   const [getListAndTodo, { data, isError, isLoading }] = todoApi.useLazyGetAllQuery();
 
-  const [todoListData, setTodoListData] = useState(data?.data.todo[selectedListId]);
+  const [todoListData, setTodoListData] = useState<{
+    title: string;
+    todo: ITodo[];
+  }>(data?.data.todo[selectedListId] || { title: '', todo: [] });
 
   useEffect(() => {
     dispatch(setMode(TodoListMode.NORMAL));
     getListAndTodo();
   }, []);
 
-  useEffect(() => {
-    if (selectedListId) setTodoListData(data?.data.todo[selectedListId]);
-  }, [selectedListId, data]);
-
+  const [getListById] = listApi.useLazyGetListByIdQuery();
   const selectDataFromList = listApi.endpoints.getListById.select(selectedListId);
-  const res = useSelector(selectDataFromList);
-  const updateData = res?.data?.data;
+  const listApiRes = useSelector(selectDataFromList);
 
   useEffect(() => {
-    setTodoListData({
-      title: updateData?.title,
-      todo: updateData?.todos,
-    } as {
-      title: string;
-      todo: ITodo[];
-    });
-  }, [updateData]);
+    if (selectedListId) {
+      if (listApiRes.isUninitialized && data?.data.todo[selectedListId]) {
+        setTodoListData(data?.data.todo[selectedListId]);
+      } else {
+        getListById(selectedListId);
+      }
+    }
+  }, [getListById, listApiRes.isUninitialized, selectedListId, data]);
+
+  useEffect(() => {
+    if (listApiRes?.data?.data) {
+      const { id, ...rest } = listApiRes?.data?.data;
+      if (rest) setTodoListData(rest);
+    }
+  }, [listApiRes?.data?.data]);
 
   const handleKeywordChange = async (keyword: string) => {
     dispatch(setMode(keyword ? TodoListMode.SEARCH : TodoListMode.NORMAL));

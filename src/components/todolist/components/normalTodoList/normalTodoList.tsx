@@ -51,6 +51,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
 
   const handleUpdate = async (todo: UpdateTodoReqBody) => {
     updateTodo(todo);
+    getListById(selectedListId);
   };
 
   const handleDelete = async (todoId: ITodo['id']) => {
@@ -63,6 +64,7 @@ const TodoList = ({ data, isError, isLoading }: TodoListProps) => {
 
   const handleToggle = (todoInfo: ITodo) => {
     updateTodo({ id: todoInfo.id, completed: todoInfo.completed });
+    getListById(selectedListId);
   };
 
   return (
