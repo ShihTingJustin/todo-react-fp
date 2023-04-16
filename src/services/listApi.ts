@@ -9,7 +9,8 @@ export interface Response<T = any> {
 export interface GetListRes {
   id: string;
   title: string;
-  todos: Array<ITodo>;
+  todo: Array<ITodo>;
+  incompleteTodoAmount: number;
 }
 
 export const listApi = createApi({

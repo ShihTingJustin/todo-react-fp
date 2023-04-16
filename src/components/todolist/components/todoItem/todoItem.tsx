@@ -42,11 +42,8 @@ const TodoItem = ({
   }, [showNewTodo]);
 
   const handleClick = () => {
-    setTodoInfo((prev) => {
-      const updateTodoInfo = { ...prev, completed: !prev.completed };
-      onToggle?.(updateTodoInfo);
-      return updateTodoInfo;
-    });
+    const updateTodoInfo = { ...todo, completed: !todo.completed };
+    onToggle?.(updateTodoInfo);
   };
 
   return (
@@ -67,14 +64,14 @@ const TodoItem = ({
         </div>
         <div className="todo-item w-full">
           <div className="flex items-center w-full border-b border-border-gray2">
-            {todoInfo?.priority && <div>!</div>}
+            {todo?.priority && <div>!</div>}
             <Input
               ref={editField}
               value={todoInfo.title}
-              className="edit w-full text-content-1"
+              className={`edit w-full text-content-1 ${todoInfo.completed && 'text-border-gray1'}`}
               bordered={false}
               onBlur={(e) => {
-                onBlur?.({ ...todoInfo, title: e.target.value });
+                onBlur?.({ ...todo, title: e.target.value });
               }}
               onChange={(e) => {
                 setTodoInfo((prev) => ({ ...prev, title: e.target.value }));
